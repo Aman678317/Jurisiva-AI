@@ -2,20 +2,19 @@
 
 import time
 from typing import Dict, List, Optional
-from fastapi import FastAPI, HTTPException, Header, Query, Depends, Request
-from fastapi.responses import JSONResponse
+
+try:
+    from fastapi import FastAPI, HTTPException, Header, Query, Depends, Request
+    from fastapi.responses import JSONResponse
+    HAS_FASTAPI = True
+except ImportError:
+    HAS_FASTAPI = False
 
 from app.auth import auth_engine
 from app.authorization import auth_guard
 from app.audit import audit_logger
 from app.storage import storage_adapter
 from app.jobs import job_engine
-
-app = FastAPI(
-    title="Jurisiva AI API",
-    description="India-First Legal & Property Intelligence Platform API",
-    version="1.0.0"
-)
 
 class FastAPIBackendServer:
     """Application Server handling backend API logic."""
@@ -103,48 +102,58 @@ class FastAPIBackendServer:
 
 backend_server = FastAPIBackendServer()
 
-# FastAPI HTTP Routes
-@app.get("/")
-@app.get("/health")
-@app.get("/api/v1/health")
-def health_check():
-    res = backend_server.handle_request("/api/v1/health", "GET")
-    return res["data"]
+if HAS_FASTAPI:
+    app = FastAPI(
+        title="Jurisiva AI API",
+        description="India-First Legal & Property Intelligence Platform API",
+        version="1.0.0"
+    )
 
-@app.post("/api/v1/auth/login")
-async def login(request: Request):
-    body = await request.json() if request.headers.get("content-type") == "application/json" else {}
-    res = backend_server.handle_request("/api/v1/auth/login", "POST", body=body)
-    if "error" in res:
-        raise HTTPException(status_code=401, detail=res["error"])
-    return res["data"]
+    @app.get("/")
+    @app.get("/health")
+    @app.get("/api/v1/health")
+    def health_check():
+        res = backend_server.handle_request("/api/v1/health", "GET")
+        return res["data"]
 
-@app.get("/api/v1/matters")
-def get_matters(authorization: Optional[str] = Header(None)):
-    headers = {"Authorization": authorization} if authorization else {}
-    res = backend_server.handle_request("/api/v1/matters", "GET", headers=headers)
-    if "error" in res:
-        status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
-        raise HTTPException(status_code=status_code, detail=res["error"])
-    return res["data"]
+    @app.post("/api/v1/auth/login")
+    async def login(request: Request):
+        body = await request.json() if request.headers.get("content-type") == "application/json" else {}
+        res = backend_server.handle_request("/api/v1/auth/login", "POST", body=body)
+        if "error" in res:
+            raise HTTPException(status_code=401, detail=res["error"])
+        return res["data"]
 
-@app.post("/api/v1/matters")
-async def create_matter(request: Request, authorization: Optional[str] = Header(None)):
-    body = await request.json()
-    headers = {"Authorization": authorization} if authorization else {}
-    res = backend_server.handle_request("/api/v1/matters", "POST", headers=headers, body=body)
-    if "error" in res:
-        status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
-        raise HTTPException(status_code=status_code, detail=res["error"])
-    return res["data"]
+    @app.get("/api/v1/matters")
+    def get_matters(authorization: Optional[str] = Header(None)):
+        headers = {"Authorization": authorization} if authorization else {}
+        res = backend_server.handle_request("/api/v1/matters", "GET", headers=headers)
+        if "error" in res:
+            status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
+            raise HTTPException(status_code=status_code, detail=res["error"])
+        return res["data"]
 
-@app.post("/api/v1/matters/{matter_id}/documents")
-async def upload_document(matter_id: str, request: Request, authorization: Optional[str] = Header(None), matter_org_id: Optional[str] = None):
-    body = await request.json()
-    headers = {"Authorization": authorization} if authorization else {}
-    query_params = {"matter_org_id": matter_org_id} if matter_org_id else {}
-    res = backend_server.handle_request(f"/api/v1/matters/{matter_id}/documents", "POST", headers=headers, body=body, query_params=query_params)
-    if "error" in res:
-        status_code = 403 if "DENIED" in res["error"]["code"] else 400
-        raise HTTPException(status_code=status_code, detail=res["error"])
-    return res["data"]
+    @app.post("/api/v1/matters")
+    async def create_matter(request: Request, authorization: Optional[str] = Header(None)):
+        body = await request.json()
+        headers = {"Authorization": authorization} if authorization else {}
+        res = backend_server.handle_request("/api/v1/matters", "POST", headers=headers, body=body)
+        if "error" in res:
+            status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
+            raise HTTPException(status_code=status_code, detail=res["error"])
+        return res["data"]
+
+    @app.post("/api/v1/matters/{matter_id}/documents")
+    async def upload_document(matter_id: str, request: Request, authorization: Optional[str] = Header(None), matter_org_id: Optional[str] = None):
+        body = await request.json()
+        headers = {"Authorization": authorization} if authorization else {}
+        query_params = {"matter_org_id": matter_org_id} if matter_org_id else {}
+        res = backend_server.handle_request(f"/api/v1/matters/{matter_id}/documents", "POST", headers=headers, body=body, query_params=query_params)
+        if "error" in res:
+            status_code = 403 if "DENIED" in res["error"]["code"] else 400
+            raise HTTPException(status_code=status_code, detail=res["error"])
+        return res["data"]
+else:
+    class MockApp:
+        title = "Jurisiva AI API"
+    app = MockApp()
