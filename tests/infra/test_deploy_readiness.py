@@ -1,7 +1,6 @@
 # DevOps Infrastructure & Deployment Readiness Test Suite
 
 import pytest
-from app.main import app
 from app.config import settings
 
 def test_ops_001_environment_settings_validation():
