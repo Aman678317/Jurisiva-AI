@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 # SaaS Financial Operating Engine & Unit Economics Calculator
 
 class SaaSFinancialEngine:

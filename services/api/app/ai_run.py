@@ -1,7 +1,7 @@
 # Durable AIRun Logger Engine
 
 import time
-from typing import List, Dict, Optional
+from typing import Any, List, Dict, Optional
 
 class AIRunLogger:
     def __init__(self):

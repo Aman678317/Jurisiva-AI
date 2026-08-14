@@ -36,7 +36,7 @@ class AuthenticationEngine:
             return None
         expires_at = int(parts[4])
         if time.time() > expires_at:
-            return None // Token Expired
+            return None  # Token Expired
         return {
             "user_id": parts[1],
             "org_id": parts[2],

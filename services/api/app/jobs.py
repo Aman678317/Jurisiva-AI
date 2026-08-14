@@ -9,7 +9,7 @@ VALID_JOB_TRANSITIONS = {
     "OCR_PENDING": {"OCR_RUNNING", "FAILED"},
     "OCR_RUNNING": {"INDEXING_PENDING", "FAILED"},
     "INDEXING_PENDING": {"READY", "NEEDS_REVIEW", "FAILED"},
-    "FAILED": {"QUEUED"}, // Allows bounded retry transition
+    "FAILED": {"QUEUED"}, # Allows bounded retry transition
     "READY": set(),
 }
 
