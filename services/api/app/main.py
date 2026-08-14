@@ -1,7 +1,14 @@
 # Backend Application Server — FastAPI Gateway
 
+import os
+import sys
 import time
 from typing import Dict, List, Optional
+
+# Auto-add services/api to sys.path so 'app' modules resolve regardless of working directory
+api_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if api_dir not in sys.path:
+    sys.path.insert(0, api_dir)
 
 try:
     from fastapi import FastAPI, HTTPException, Header, Query, Depends, Request
