@@ -1,25 +1,22 @@
 # Platform Scale & Performance Engineering Test Suite
 
+import pytest
 from app.scale.tenant_governor import TenantResourceGovernor, tenant_governor
 
-describe("Chapter 28 Platform Scale, Performance Engineering & Global Readiness", () => {
-  test("SCL-001: Tenant concurrency throttling prevents noisy neighbor resource exhaustion", () => {
-    const governor = new TenantResourceGovernor(2, 600);
-    expect(governor.acquire_job_slot("org_heavy").status).toBe("ALLOWED");
-    expect(governor.acquire_job_slot("org_heavy").status).toBe("ALLOWED");
+def test_scl_001_tenant_concurrency_throttling():
+    governor = TenantResourceGovernor(max_concurrent_jobs=2, ttl_sec=600)
+    assert governor.acquire_job_slot("org_heavy")["status"] == "ALLOWED"
+    assert governor.acquire_job_slot("org_heavy")["status"] == "ALLOWED"
 
-    // 3rd concurrent request from org_heavy is throttled
-    const throttled = governor.acquire_job_slot("org_heavy");
-    expect(throttled.status).toBe("THROTTLED");
-    expect(throttled.reason).toContain("exceeded max concurrent job capacity");
+    # 3rd concurrent request from org_heavy is throttled
+    throttled = governor.acquire_job_slot("org_heavy")
+    assert throttled["status"] == "THROTTLED"
+    assert "exceeded max concurrent job capacity" in throttled["reason"]
 
-    // Separate tenant org_light is unimpeded
-    expect(governor.acquire_job_slot("org_light").status).toBe("ALLOWED");
-  });
+    # Separate tenant org_light is unimpeded
+    assert governor.acquire_job_slot("org_light")["status"] == "ALLOWED"
 
-  test("SCL-002: Tenant-safe cache key includes org_id prefix", () => {
-    const key = TenantResourceGovernor.generate_tenant_cache_key("org_001", "matter", "mat_99");
-    expect(key).toBe("cache:v1:org_org_001:matter_mat_99");
-    expect(key).toContain("org_org_001");
-  });
-});
+def test_scl_002_tenant_safe_cache_key():
+    key = TenantResourceGovernor.generate_tenant_cache_key("org_001", "matter", "mat_99")
+    assert key == "cache:v1:org_org_001:matter_mat_99"
+    assert "org_org_001" in key

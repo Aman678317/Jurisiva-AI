@@ -1,28 +1,25 @@
 # Final Production Certification Test Suite
 
+import pytest
 from app.certification.verifier import final_verifier
 from app.security.model_registry import model_registry
 
-describe("Chapter 17 Final Production Certification Suite", () => {
-  test("CRT-001: Execute End-to-End System Gate Audit", () => {
-    const cert = final_verifier.audit_all_gates();
-    expect(cert.status).toBe("PASS");
-    expect(cert.decision).toBe("GO");
-    expect(cert.red_team_audit.status).toBe("PASS");
-    expect(cert.disaster_recovery_audit.status).toBe("PASS");
-  });
+def test_crt_001_end_to_end_system_gate_audit():
+    cert = final_verifier.audit_all_gates()
+    assert cert.status == "PASS"
+    assert cert.decision == "GO"
+    assert cert.red_team_audit["status"] == "PASS"
+    assert cert.disaster_recovery_audit["status"] == "PASS"
 
-  test("CRT-002: AI Zero-Data-Retention Compliance Check", () => {
-    expect(model_registry.is_model_approved("gpt-4o-mini", "MATTER_SUMMARY")).toBe(true);
-    const gptModel = model_registry.get_model("gpt-4o-mini");
-    expect(gptModel?.zero_training_guarantee).toBe(true);
-  });
+def test_crt_002_ai_zero_data_retention():
+    assert model_registry.is_model_approved("gpt-4o-mini", "MATTER_SUMMARY") is True
+    gpt_model = model_registry.get_model("gpt-4o-mini")
+    assert gpt_model is not None
+    assert gpt_model.zero_training_guarantee is True
 
-  test("CRT-003: Operational SLA Metrics Sign-Off", () => {
-    const cert = final_verifier.audit_all_gates();
-    const metrics = cert.live_telemetry_metrics;
-    expect(metrics.auth_p95_ms).toBeLessThan(150);
-    expect(metrics.search_p95_ms).toBeLessThan(600);
-    expect(metrics.rag_p95_ms).toBeLessThan(1500);
-  });
-});
+def test_crt_003_operational_sla_metrics():
+    cert = final_verifier.audit_all_gates()
+    metrics = cert.live_telemetry_metrics
+    assert metrics["auth_p95_ms"] < 150
+    assert metrics["search_p95_ms"] < 600
+    assert metrics["rag_p95_ms"] < 1500

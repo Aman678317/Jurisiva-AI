@@ -1,47 +1,43 @@
 # Document Processing Pipeline & Indic OCR Evaluation Test Suite
 
+import pytest
 from workers.ingestion_worker.ocr_engine import ocr_gateway
 from workers.ingestion_worker.pipeline import document_pipeline, PDFTextDetector, EntityCandidateExtractor
 
-describe("Document Processing Pipeline & OCR Evaluation", () => {
-  test("DOC-001: PDF text vs scanned page detection", () => {
-    expect(PDFTextDetector.inspect_page(10)).toBe(true);  // Low text density -> Scanned OCR required
-    expect(PDFTextDetector.inspect_page(500)).toBe(false); // Native text embedded PDF
-  });
+def test_doc_001_pdf_text_vs_scanned_detection():
+    assert PDFTextDetector.inspect_page(10) is True   # Low text density -> Scanned OCR required
+    assert PDFTextDetector.inspect_page(500) is False # Native text embedded PDF
 
-  test("DOC-002: Indic OCR Gateway language & bounding box extraction", () => {
-    const res = ocr_gateway.process_page_image(1, true);
-    expect(res.raw_text).toContain("Survey No. 42/1");
-    expect(res.detected_languages).toContain("mr");
-    expect(res.quality_score).toBeGreaterThanOrEqual(0.90);
-    expect(res.layout_blocks.length).toBe(3);
-    expect(res.words[0].bbox).toBeDefined();
-  });
+def test_doc_002_indic_ocr_gateway():
+    res = ocr_gateway.process_page_image(1, True)
+    assert "Survey No. 42/1" in res["raw_text"]
+    assert "mr" in res["detected_languages"]
+    assert res["quality_score"] >= 0.90
+    assert len(res["layout_blocks"]) == 3
+    assert res["words"][0]["bbox"] is not None
 
-  test("DOC-003: Entity Candidate Extraction for Survey # and Extent", () => {
-    const sampleText = "Deed executed on 14-08-1985 for Survey No. 42/1 Hissa 2 measuring 2 Acres 24 Guntas";
-    const candidates = EntityCandidateExtractor.extract_candidates(sampleText, 1);
-    expect(candidates.length).toBeGreaterThanOrEqual(3);
-    
-    const syCandidate = candidates.find(c => c.entity_type === "SURVEY_NUMBER");
-    expect(syCandidate?.normalized_value).toBe("42/1");
+def test_doc_003_entity_candidate_extraction():
+    sample_text = "Deed executed on 14-08-1985 for Survey No. 42/1 Hissa 2 measuring 2 Acres 24 Guntas"
+    candidates = EntityCandidateExtractor.extract_candidates(sample_text, 1)
+    assert len(candidates) >= 3
 
-    const extentCandidate = candidates.find(c => c.entity_type === "EXTENT");
-    expect(extentCandidate?.normalized_value).toContain("2 Acres 24 Guntas");
-  });
+    sy_candidate = next((c for c in candidates if c["entity_type"] == "SURVEY_NUMBER"), None)
+    assert sy_candidate is not None
+    assert sy_candidate["normalized_value"] == "42/1"
 
-  test("DOC-004: End-to-End Pipeline Execution & Quality Threshold Validation", () => {
-    const result = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", true);
-    expect(result.status).toBe("READY");
-    expect(result.pipeline_log.length).toBe(5);
-    expect(result.entities.length).toBeGreaterThan(0);
-    expect(result.raw_ocr_text).toBe(result.normalized_text); // Provenance preservation check
-  });
+    extent_candidate = next((c for c in candidates if c["entity_type"] == "EXTENT"), None)
+    assert extent_candidate is not None
+    assert "2 Acres 24 Guntas" in extent_candidate["normalized_value"]
 
-  test("DOC-005: Idempotency & Bounded Retry Safety", () => {
-    const run1 = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", true);
-    const run2 = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", true);
-    expect(run1.document_id).toBe(run2.document_id);
-    expect(run1.quality_score).toBe(run2.quality_score);
-  });
-});
+def test_doc_004_e2e_pipeline_execution():
+    result = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", True)
+    assert result["status"] == "READY"
+    assert len(result["pipeline_log"]) == 5
+    assert len(result["entities"]) > 0
+    assert result["raw_ocr_text"] == result["normalized_text"]
+
+def test_doc_005_idempotency_retry_safety():
+    run1 = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", True)
+    run2 = document_pipeline.process_document("doc_test_101", "SaleDeed.pdf", True)
+    assert run1["document_id"] == run2["document_id"]
+    assert run1["quality_score"] == run2["quality_score"]

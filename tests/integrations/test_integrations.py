@@ -1,52 +1,46 @@
 # External Data Sources & India Integration Test Suite
 
+import pytest
 from app.integrations.registry import source_registry
 from app.integrations.mock_adapters import mock_court_adapter, mock_property_adapter
 from app.integrations.orchestrator import research_orchestrator, SSRFSecurityGuard
 
-describe("Chapter 11 External Research & India Integrations", () => {
-  test("IND-001: Source Registry authority level lookup", () => {
-    const ecourtsSrc = source_registry.get_source("src_ecourts");
-    expect(ecourtsSrc).toBeDefined();
-    expect(ecourtsSrc?.authority_level).toBe("LEVEL_1");
-    expect(ecourtsSrc?.is_official).toBe(true);
-  });
+def test_ind_001_source_registry_authority_level():
+    ecourts_src = source_registry.get_source("src_ecourts")
+    assert ecourts_src is not None
+    assert ecourts_src.authority_level == "LEVEL_1"
+    assert ecourts_src.is_official is True
 
-  test("IND-002: Mock Court Adapter search and normalization", () => {
-    const results = mock_court_adapter.search("104/2019", {});
-    expect(results.length).toBe(1);
-    expect(results[0].case_number).toBe("O.S. No. 104/2019");
+def test_ind_002_mock_court_adapter_search_normalize():
+    results = mock_court_adapter.search("104/2019", {})
+    assert len(results) == 1
+    assert results[0].case_number == "O.S. No. 104/2019"
 
-    const record = mock_court_adapter.fetch(results[0].case_id);
-    const normalized = mock_court_adapter.normalize(record);
-    expect(normalized.canonical_type).toBe("COURT_ORDER");
-    expect(normalized.provenance.content_hash).toBeDefined();
-  });
+    record = mock_court_adapter.fetch(results[0].case_id)
+    normalized = mock_court_adapter.normalize(record)
+    assert normalized.canonical_type == "COURT_ORDER"
+    assert normalized.provenance["content_hash"] is not None
 
-  test("IND-003: Mock Property Adapter land record lookup", () => {
-    const parcels = mock_property_adapter.search("42/1", {});
-    expect(parcels.length).toBe(1);
-    expect(parcels[0].survey_number).toBe("42/1");
-    expect(parcels[0].owner_name).toContain("Krishnappa");
+def test_ind_003_mock_property_adapter():
+    parcels = mock_property_adapter.search("42/1", {})
+    assert len(parcels) == 1
+    assert parcels[0].survey_number == "42/1"
+    assert "Krishnappa" in parcels[0].owner_name
 
-    const health = mock_property_adapter.health_check();
-    expect(health.status).toBe("HEALTHY");
-  });
+    health = mock_property_adapter.health_check()
+    assert health["status"] == "HEALTHY"
 
-  test("IND-004: SSRF URL Security Guard blocks private IP subnets", () => {
-    expect(SSRFSecurityGuard.validate_external_url("http://localhost:8000")).toBe(false);
-    expect(SSRFSecurityGuard.validate_external_url("http://127.0.0.1/admin")).toBe(false);
-    expect(SSRFSecurityGuard.validate_external_url("http://169.254.169.254/latest/meta-data")).toBe(false);
-    expect(SSRFSecurityGuard.validate_external_url("https://ecourts.gov.in/services")).toBe(true);
-  });
+def test_ind_004_ssrf_url_security_guard():
+    assert SSRFSecurityGuard.validate_external_url("http://localhost:8000") is False
+    assert SSRFSecurityGuard.validate_external_url("http://127.0.0.1/admin") is False
+    assert SSRFSecurityGuard.validate_external_url("http://169.254.169.254/latest/meta-data") is False
+    assert SSRFSecurityGuard.validate_external_url("https://ecourts.gov.in/services") is True
 
-  test("IND-005: Research Orchestrator tenant security and provenance", () => {
-    const courtRes = research_orchestrator.execute_court_research("org_001", "mat_001", "104/2019");
-    expect(courtRes.status).toBe("SUCCESS");
-    expect(courtRes.verification_status).toBe("SOURCE_RETRIEVED");
-    expect(courtRes.authority_level).toBe("LEVEL_1");
+def test_ind_005_research_orchestrator():
+    court_res = research_orchestrator.execute_court_research("org_001", "mat_001", "104/2019")
+    assert court_res["status"] == "SUCCESS"
+    assert court_res["verification_status"] == "SOURCE_RETRIEVED"
+    assert court_res["authority_level"] == "LEVEL_1"
 
-    const unauthorizedRes = research_orchestrator.execute_court_research("", "mat_001", "104/2019");
-    expect(unauthorizedRes.status).toBe("FORBIDDEN");
-  });
-});
+    unauthorized_res = research_orchestrator.execute_court_research("", "mat_001", "104/2019")
+    assert unauthorized_res["status"] == "FORBIDDEN"

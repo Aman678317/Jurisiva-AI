@@ -1,35 +1,31 @@
 # Enterprise Assurance & Certification Readiness Test Suite
 
+import pytest
 from app.assurance.assurance_verifier import assurance_verifier
 
-describe("Chapter 30 Enterprise Assurance & Certification Readiness", () => {
-  test("ASR-001: Certification claims reject premature 'certified' assertions", () => {
-    const falseClaim = assurance_verifier.verify_certification_claim("ISO 27001 Certified Platform", "READINESS_COMPLETE");
-    expect(falseClaim.status).toBe("REJECTED");
-    expect(falseClaim.reason).toContain("prohibited");
+def test_asr_001_certification_claims():
+    false_claim = assurance_verifier.verify_certification_claim("ISO 27001 Certified Platform", "READINESS_COMPLETE")
+    assert false_claim["status"] == "REJECTED"
+    assert "prohibited" in false_claim["reason"]
 
-    const truthfulClaim = assurance_verifier.verify_certification_claim("ISO 27001 Readiness Complete", "READINESS_COMPLETE");
-    expect(truthfulClaim.status).toBe("VALIDATED");
-  });
+    truthful_claim = assurance_verifier.verify_certification_claim("ISO 27001 Readiness Complete", "READINESS_COMPLETE")
+    assert truthful_claim["status"] == "VALIDATED"
 
-  test("ASR-002: Mock audit passes when all controls have verified technical evidence", () => {
-    const controls = [
-      { id: "CTL-01", has_evidence: true, status: "PASS" },
-      { id: "CTL-02", has_evidence: true, status: "PASS" },
-      { id: "CTL-03", has_evidence: true, status: "PASS" }
-    ];
-    const auditRes = assurance_verifier.run_mock_audit(controls);
-    expect(auditRes.mock_audit_status).toBe("PASS");
-    expect(auditRes.unproven_controls_count).toBe(0);
-  });
+def test_asr_002_mock_audit_passes():
+    controls = [
+        {"id": "CTL-01", "has_evidence": True, "status": "PASS"},
+        {"id": "CTL-02", "has_evidence": True, "status": "PASS"},
+        {"id": "CTL-03", "has_evidence": True, "status": "PASS"}
+    ]
+    audit_res = assurance_verifier.run_mock_audit(controls)
+    assert audit_res["mock_audit_status"] == "PASS"
+    assert audit_res["unproven_controls_count"] == 0
 
-  test("ASR-003: Mock audit fails if any control lacks verified evidence", () => {
-    const controls = [
-      { id: "CTL-01", has_evidence: true, status: "PASS" },
-      { id: "CTL-02", has_evidence: false, status: "UNTESTED" }
-    ];
-    const auditRes = assurance_verifier.run_mock_audit(controls);
-    expect(auditRes.mock_audit_status).toBe("FAIL");
-    expect(auditRes.unproven_controls_count).toBe(1);
-  });
-});
+def test_asr_003_mock_audit_fails():
+    controls = [
+        {"id": "CTL-01", "has_evidence": True, "status": "PASS"},
+        {"id": "CTL-02", "has_evidence": False, "status": "UNTESTED"}
+    ]
+    audit_res = assurance_verifier.run_mock_audit(controls)
+    assert audit_res["mock_audit_status"] == "FAIL"
+    assert audit_res["unproven_controls_count"] == 1
