@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jurisiva AI — Legal & Property Intelligence Platform</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      header {
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+      }
+      h1 {
+        margin: 0;
+        color: #1e293b;
+        font-size: 1.875rem;
+      }
+      p.subtitle {
+        color: #64748b;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+      }
+      .search-box {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+      input[type="text"] {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        font-size: 1rem;
+        outline: none;
+      }
+      input[type="text"]:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+      button {
+        background-color: #2563eb;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+      }
+      button:hover {
+        background-color: #1d4ed8;
+      }
+      .result-card {
+        background: #f1f5f9;
+        padding: 1.25rem;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+      }
+      pre {
+        background: #0f172a;
+        color: #38bdf8;
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 0.875rem;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        background: #dcfce7;
+        color: #166534;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="status-badge">● System Online</div>
+        <h1>🏛️ Jurisiva AI</h1>
+        <p class="subtitle">India-First Legal & Property Intelligence Platform</p>
+      </header>
+
+      <main>
+        <div class="search-box">
+          <input
+            id="query-input"
+            type="text"
+            placeholder="Search Survey No. 42/1 Devanahalli or Ask Legal Copilot..."
+            value="What is the extent of Survey No 42/1?"
+          />
+          <button id="search-btn">Execute Search</button>
+        </div>
+
+        <div id="output-area">
+          <div class="result-card">
+            <h3 style="margin-top: 0;">System Readiness Status</h3>
+            <p>FastAPI Backend Endpoint: <code>http://127.0.0.1:8000/api/v1/health</code></p>
+            <p>Click "Execute Search" to query backend services.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const btn = document.getElementById('search-btn');
+      const input = document.getElementById('query-input');
+      const output = document.getElementById('output-area');
+
+      btn.addEventListener('click', async () => {
+        const query = input.value;
+        btn.textContent = 'Searching...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch('http://127.0.0.1:8000/api/v1/health');
+          const data = await res.json();
+          output.innerHTML = `
+            <div class="result-card">
+              <h3 style="margin-top: 0; color: #166534;">Backend Health Status: CONNECTED</h3>
+              <p>Query: "<strong>${query}</strong>"</p>
+              <pre>${JSON.stringify(data, null, 2)}</pre>
+            </div>
+          `;
+        } catch (err) {
+          output.innerHTML = `
+            <div class="result-card" style="border-color: #fca5a5; background: #fef2f2;">
+              <h3 style="margin-top: 0; color: #991b1b;">Backend Offline</h3>
+              <p>Start Python FastAPI backend with:</p>
+              <pre>python -m uvicorn services.api.app.main:app --reload</pre>
+            </div>
+          `;
+        } finally {
+          btn.textContent = 'Execute Search';
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

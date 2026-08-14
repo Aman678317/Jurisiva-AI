@@ -1,0 +1,10 @@
+{
+  "name": "jurisiva-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
+    "server": "python -m uvicorn services.api.app.main:app --reload --host 127.0.0.1 --port 8000"
+  }
+}
