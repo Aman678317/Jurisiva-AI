@@ -1,15 +1,25 @@
 # Backend Application Server — FastAPI Gateway
 
+import time
 from typing import Dict, List, Optional
+from fastapi import FastAPI, HTTPException, Header, Query, Depends, Request
+from fastapi.responses import JSONResponse
+
 from app.auth import auth_engine
 from app.authorization import auth_guard
 from app.audit import audit_logger
 from app.storage import storage_adapter
 from app.jobs import job_engine
 
+app = FastAPI(
+    title="Jurisiva AI API",
+    description="India-First Legal & Property Intelligence Platform API",
+    version="1.0.0"
+)
+
 class FastAPIBackendServer:
-    """Mock Application Server representing backend API endpoints."""
-    
+    """Application Server handling backend API logic."""
+
     def handle_request(
         self,
         endpoint: str,
@@ -21,12 +31,12 @@ class FastAPIBackendServer:
         headers = headers or {}
         body = body or {}
         query_params = query_params or {}
-        
+
         token = headers.get("Authorization", "").replace("Bearer ", "")
         session = auth_engine.verify_token(f"bearer_{token}") if token else None
 
         # 1. /api/v1/health
-        if endpoint == "/api/v1/health":
+        if endpoint in ["/api/v1/health", "/health", "/"]:
             return {"status": "200 OK", "data": {"status": "HEALTHY", "db": "CONNECTED", "redis": "CONNECTED"}}
 
         # 2. /api/v1/auth/login
@@ -67,10 +77,10 @@ class FastAPIBackendServer:
             audit_logger.log_event(user_org_id, user_id, "Advocate Rajesh", "MATTER_CREATED", "Matter", matter_id)
             return {"status": "201 Created", "data": {"id": matter_id, "organization_id": user_org_id, "title": title}}
 
-        # 5. POST /api/v1/documents (Upload Intent)
+        # 5. POST /api/v1/matters/{matter_id}/documents (Upload Intent)
         if endpoint.startswith("/api/v1/matters/") and endpoint.endswith("/documents") and method == "POST":
             target_matter_org_id = query_params.get("matter_org_id", user_org_id)
-            
+
             # Strict Tenant Isolation Check
             if not auth_guard.verify_tenant_access(user_org_id, target_matter_org_id):
                 return {"status": "403 Forbidden", "error": {"code": "TENANT_ACCESS_DENIED", "message": "Cross-tenant access blocked."}}
@@ -92,3 +102,49 @@ class FastAPIBackendServer:
         return {"status": "404 Not Found", "error": {"code": "NOT_FOUND", "message": "Endpoint not found"}}
 
 backend_server = FastAPIBackendServer()
+
+# FastAPI HTTP Routes
+@app.get("/")
+@app.get("/health")
+@app.get("/api/v1/health")
+def health_check():
+    res = backend_server.handle_request("/api/v1/health", "GET")
+    return res["data"]
+
+@app.post("/api/v1/auth/login")
+async def login(request: Request):
+    body = await request.json() if request.headers.get("content-type") == "application/json" else {}
+    res = backend_server.handle_request("/api/v1/auth/login", "POST", body=body)
+    if "error" in res:
+        raise HTTPException(status_code=401, detail=res["error"])
+    return res["data"]
+
+@app.get("/api/v1/matters")
+def get_matters(authorization: Optional[str] = Header(None)):
+    headers = {"Authorization": authorization} if authorization else {}
+    res = backend_server.handle_request("/api/v1/matters", "GET", headers=headers)
+    if "error" in res:
+        status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
+        raise HTTPException(status_code=status_code, detail=res["error"])
+    return res["data"]
+
+@app.post("/api/v1/matters")
+async def create_matter(request: Request, authorization: Optional[str] = Header(None)):
+    body = await request.json()
+    headers = {"Authorization": authorization} if authorization else {}
+    res = backend_server.handle_request("/api/v1/matters", "POST", headers=headers, body=body)
+    if "error" in res:
+        status_code = 403 if res["error"]["code"] == "PERMISSION_DENIED" else 401
+        raise HTTPException(status_code=status_code, detail=res["error"])
+    return res["data"]
+
+@app.post("/api/v1/matters/{matter_id}/documents")
+async def upload_document(matter_id: str, request: Request, authorization: Optional[str] = Header(None), matter_org_id: Optional[str] = None):
+    body = await request.json()
+    headers = {"Authorization": authorization} if authorization else {}
+    query_params = {"matter_org_id": matter_org_id} if matter_org_id else {}
+    res = backend_server.handle_request(f"/api/v1/matters/{matter_id}/documents", "POST", headers=headers, body=body, query_params=query_params)
+    if "error" in res:
+        status_code = 403 if "DENIED" in res["error"]["code"] else 400
+        raise HTTPException(status_code=status_code, detail=res["error"])
+    return res["data"]

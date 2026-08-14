@@ -1,7 +1,10 @@
 # Citation-Aware RAG Engine, Evidence Sufficiency Gate & Prompt Injection Guard
 
+import re
 from typing import Dict, List, Optional
 from app.search_engine import search_engine
+
+STOPWORDS = {"is", "in", "to", "at", "of", "on", "the", "a", "an", "or", "and", "be", "where", "what", "which", "when", "how", "who", "why"}
 
 class EvidenceSufficiencyGate:
     """Evaluates whether retrieved chunks contain sufficient evidence to answer the query."""
@@ -11,8 +14,21 @@ class EvidenceSufficiencyGate:
         if not candidates:
             return "INSUFFICIENT_EVIDENCE", False
 
+        query_words = [re.sub(r'^\W+|\W+$', '', w).lower() for w in query.split()]
+        content_words = [w for w in query_words if len(w) > 2 and w not in STOPWORDS]
+
+        has_lexical_overlap = any(
+            any(word in c.get("text", "").lower() for word in content_words)
+            for c in candidates
+        ) if content_words else False
+
         max_score = max(c.get("rrf_score", 0.0) for c in candidates)
-        if max_score < 0.015:  # Below minimum score threshold
+
+        # If content words exist but none match any retrieved candidate text, evidence is insufficient
+        if content_words and not has_lexical_overlap:
+            return "INSUFFICIENT_EVIDENCE", False
+
+        if max_score < 0.015:
             return "INSUFFICIENT_EVIDENCE", False
 
         return "SUPPORTED", True

@@ -25,3 +25,5 @@ jobs:
       - name: Run Quality & Security Tests
         run: |
           pytest tests/
+
+

@@ -7,8 +7,8 @@ from app.intelligence.claim_verifier import claim_verifier
 def test_dat_001_add_evidence_graph_edge():
     prov = {"document_id": "doc_1985", "page_number": 1, "extraction_method": "INDIC_OCR"}
     edge = evidence_graph_engine.add_evidence_edge("org_001", "person_venkatappa", "TRANSFERRED_TITLE_TO", "person_krishnappa", prov)
-    assert edge.edge_id is not None
-    assert edge.provenance["document_id"] == "doc_1985"
+    assert edge["edge_id"] is not None
+    assert edge["provenance"]["document_id"] == "doc_1985"
 
 def test_dat_002_zero_cross_tenant_graph_traversal():
     evidence_graph_engine.add_evidence_edge("org_002", "person_unauthorized", "OWNS", "parcel_999", {"source": "test"})

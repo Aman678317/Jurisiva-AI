@@ -41,15 +41,15 @@ def test_rag_004_evidence_sufficiency_gate():
     assert sufficient is False
 
     rag_res = rag_engine.query_assistant("org_001", "mat_001", "Where is the secret nuclear code?")
-    assert rag_res.evidence_status == "INSUFFICIENT_EVIDENCE"
-    assert "Insufficient evidence" in rag_res.answer
+    assert rag_res["evidence_status"] == "INSUFFICIENT_EVIDENCE"
+    assert "Insufficient evidence" in rag_res["answer"]
 
 def test_rag_005_grounded_answer_and_citation():
     rag_res = rag_engine.query_assistant("org_001", "mat_001", "What is the extent of Survey No 42/1?")
-    assert rag_res.evidence_status == "SUPPORTED"
-    assert len(rag_res.citations) == 1
-    assert rag_res.citations[0].status == "VERIFIED_SOURCE"
-    assert rag_res.citations[0].page_number == 3
+    assert rag_res["evidence_status"] == "SUPPORTED"
+    assert len(rag_res["citations"]) == 1
+    assert rag_res["citations"][0]["status"] == "VERIFIED_SOURCE"
+    assert rag_res["citations"][0]["page_number"] == 3
 
 def test_rag_006_citation_validator_catches_invalid_page():
     invalid_citation = [{"document_id": "doc_001", "page_number": 99, "excerpt": "Fake text"}]

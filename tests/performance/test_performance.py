@@ -28,5 +28,5 @@ def test_perf_003_rag_copilot_latency():
     res = rag_engine.query_assistant("org_001", "mat_001", "What is the extent of Survey No 42/1?")
     duration_ms = (time.time() - start) * 1000
 
-    assert res.evidence_status == "SUPPORTED"
+    assert res["evidence_status"] == "SUPPORTED"
     assert duration_ms < 1500.0

@@ -1,7 +1,10 @@
 # Hybrid Search Engine — BM25 + Vector Reciprocal Rank Fusion (RRF)
 
+import re
 from typing import List, Dict
 from app.embeddings import embedding_provider, vector_index
+
+STOPWORDS = {"is", "in", "to", "at", "of", "on", "the", "a", "an", "or", "and", "be", "where", "what", "which", "when", "how", "who", "why"}
 
 class HybridSearchEngine:
     """Executes authorization-safe hybrid lexical + vector search merged via RRF."""
@@ -21,11 +24,14 @@ class HybridSearchEngine:
         query_vec = embedding_provider.generate_embedding(query)
         vector_candidates = vector_index.search_similar(org_id, matter_id, query_vec, top_k=top_k * 2)
 
-        # 3. Lexical BM25 Search Candidates (Simulated PostgreSQL tsvector match)
+        # 3. Lexical BM25 Search Candidates (Filter stop words to avoid accidental substring matches)
+        query_words = [re.sub(r'^\W+|\W+$', '', w).lower() for w in query.split()]
+        content_words = [w for w in query_words if len(w) > 2 and w not in STOPWORDS]
+
         lexical_candidates = [
             cand for cand in vector_candidates
-            if any(term.lower() in cand["text"].lower() for term in query.split())
-        ]
+            if any(word in cand["text"].lower() for word in content_words)
+        ] if content_words else []
 
         # 4. Reciprocal Rank Fusion (RRF) Merging
         rrf_scores: Dict[str, float] = {}

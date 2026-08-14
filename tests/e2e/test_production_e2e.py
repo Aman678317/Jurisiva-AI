@@ -27,9 +27,9 @@ def test_e2e_001_complete_advocate_workflow():
 
     # 5. RAG Assistant Query & Citation Verification
     rag_res = rag_engine.query_assistant("org_001", "mat_001", "What is the extent of Survey No 42/1?")
-    assert rag_res.evidence_status == "SUPPORTED"
-    assert len(rag_res.citations) == 1
-    assert rag_res.citations[0].status == "VERIFIED_SOURCE"
+    assert rag_res["evidence_status"] == "SUPPORTED"
+    assert len(rag_res["citations"]) == 1
+    assert rag_res["citations"][0]["status"] == "VERIFIED_SOURCE"
 
     # 6. Title Search Report Export
     report = report_builder.generate_report("mat_001", {"survey_number": "42/1"}, [], [])
