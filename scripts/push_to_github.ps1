@@ -1,13 +1,12 @@
 Write-Host "===============================================================================" -ForegroundColor Cyan
-Write-Host "Pushing Vercel Build & Live Production Fixes to GitHub" -ForegroundColor Green
+Write-Host "Resetting to Remote origin/main and Pushing Clean Commit" -ForegroundColor Green
 Write-Host "===============================================================================" -ForegroundColor Cyan
 
-git status
+git reset origin/main
 git add .
-git commit -m "fix(vercel): resolve static build command and set default live Render API url"
-git branch -M main
+git commit -m "fix(deploy): complete deployment configuration, port binding, and test fixes"
 git push origin main
 
 Write-Host "===============================================================================" -ForegroundColor Cyan
-Write-Host "Push Completed! Repository: https://github.com/Aman678317/Jurisiva-AI" -ForegroundColor Green
+Write-Host "Push Completed Successfully! Repository: https://github.com/Aman678317/Jurisiva-AI" -ForegroundColor Green
 Write-Host "===============================================================================" -ForegroundColor Cyan
