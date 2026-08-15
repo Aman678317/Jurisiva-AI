@@ -1,14 +1,14 @@
 @echo off
 echo ===============================================================================
-echo Pushing Vercel OutputDirectory Fix to GitHub (apps/web/index.html)
+echo Pushing Bulletproof Dual Static & FastAPI Root HTML Handler to GitHub
 echo ===============================================================================
 
 git reset origin/main
 git add .
-git commit -m "fix(vercel): configure outputDirectory apps/web and /index.html rewrite"
+git commit -m "fix(web): add bulletproof root HTML response handler in main.py and vercel.json"
 git push origin main
 
 echo ===============================================================================
-echo Push Completed!
+echo Push Completed Successfully!
 echo ===============================================================================
 pause
