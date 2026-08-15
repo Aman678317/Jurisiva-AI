@@ -1272,3 +1272,8 @@ else:
     class MockApp:
         title = "Jurisiva AI API"
     app = MockApp()
+
+if __name__ == "__main__":
+    import uvicorn
+    server_port = int(os.getenv("PORT", "10000"))
+    uvicorn.run("services.api.app.main:app", host="0.0.0.0", port=server_port, reload=False)

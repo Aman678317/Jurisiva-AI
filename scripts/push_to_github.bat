@@ -1,15 +1,15 @@
 @echo off
 echo ===============================================================================
-echo Pushing Jurisiva-AI Test Suite Fixes to GitHub (Aman678317/Jurisiva-AI)
+echo Pushing Render Port Binding & Production Fixes to GitHub
 echo ===============================================================================
 
 git status
 git add .
-git commit -m "fix(tests): resolve model router tier, token parser, entity aliases, sub-routing, and voice assistant checks"
+git commit -m "fix(deploy): bind dynamic PORT env variable (10000) for Render Web Service in Dockerfile and main"
 git branch -M main
 git push origin main
 
 echo ===============================================================================
-echo Code successfully pushed to https://github.com/Aman678317/Jurisiva-AI
+echo Push Completed!
 echo ===============================================================================
 pause
