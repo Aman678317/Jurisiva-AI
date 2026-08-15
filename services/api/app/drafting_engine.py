@@ -112,7 +112,7 @@ High Court of Karnataka
             draft_category = "Court Petition"
 
         elif draft_type == "LEGAL_NOTICE":
-            title = f"STATUTORY LEGAL NOTICE FOR DISCHARGE OF UNRELEASED MORTGAGE ON SURVEY NO. {survey_no}"
+            title = f"DEMAND FOR EXECUTION AND REGISTRATION OF DEED OF DISCHARGE ON SURVEY NO. {survey_no}"
             content = f"""LEGAL NOTICE (REGISTERED POST WITH ACKNOWLEDGEMENT DUE)
 
 Date: {time.strftime('%d-%m-%Y')}

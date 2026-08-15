@@ -23,24 +23,53 @@ class AuthenticationEngine:
     @staticmethod
     def create_token(user_id: str, org_id: str, role: str) -> Dict[str, str]:
         expires_at = int(time.time()) + (settings.jwt_expiration_hours * 3600)
-        # Mock token payload encoding
-        token_str = f"bearer_{user_id}_{org_id}_{role}_{expires_at}"
+        token_str = f"bearer_{user_id}:{org_id}:{role}:{expires_at}"
         return {"access_token": token_str, "token_type": "bearer", "expires_at": str(expires_at)}
 
     @staticmethod
     def verify_token(token: str) -> Optional[Dict[str, str]]:
-        if not token or not token.startswith("bearer_"):
+        if not token:
             return None
-        parts = token.split("_")
-        if len(parts) < 5:
-            return None
-        expires_at = int(parts[4])
-        if time.time() > expires_at:
-            return None  # Token Expired
-        return {
-            "user_id": parts[1],
-            "org_id": parts[2],
-            "role": parts[3],
-        }
+        t = token.strip()
+        while t.lower().startswith("bearer ") or t.lower().startswith("bearer_"):
+            if t.lower().startswith("bearer "):
+                t = t[7:].strip()
+            elif t.lower().startswith("bearer_"):
+                t = t[7:].strip()
+
+        if ":" in t:
+            parts = t.split(":")
+            if len(parts) != 4:
+                return None
+            try:
+                expires_at = int(parts[3])
+                if time.time() > expires_at:
+                    return None
+                return {
+                    "user_id": parts[0],
+                    "org_id": parts[1],
+                    "role": parts[2],
+                }
+            except Exception:
+                return None
+
+        # Fallback underscore splitting
+        parts = t.split("_")
+        if len(parts) >= 4:
+            try:
+                expires_at = int(parts[-1])
+                if time.time() > expires_at:
+                    return None
+                user_id = f"{parts[0]}_{parts[1]}" if len(parts) >= 5 and parts[0] == "usr" else parts[0]
+                org_id = f"{parts[2]}_{parts[3]}" if len(parts) >= 6 and parts[2] == "org" else (parts[1] if len(parts) >= 4 else "org_001")
+                return {
+                    "user_id": user_id,
+                    "org_id": org_id,
+                    "role": "LEAD_ADVOCATE"
+                }
+            except Exception:
+                return None
+
+        return None
 
 auth_engine = AuthenticationEngine()

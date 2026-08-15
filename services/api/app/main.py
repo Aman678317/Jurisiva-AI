@@ -160,8 +160,8 @@ class FastAPIBackendServer:
         body = body or {}
         query_params = query_params or {}
 
-        token = headers.get("Authorization", "").replace("Bearer ", "")
-        session = auth_engine.verify_token(f"bearer_{token}") if token else None
+        token = headers.get("Authorization", "")
+        session = auth_engine.verify_token(token) if token else None
 
         # 1. /api/v1/health
         if endpoint in ["/api/v1/health", "/health", "/"]:
@@ -410,11 +410,15 @@ class FastAPIBackendServer:
             audit_logger.log_event(user_org_id, user_id, "Advocate Rajesh", "CREATE_CASE", "Case", new_case.case_id)
             return {"status": "201 Created", "data": new_case.to_dict()}
 
-        # 28. Sub-resource routes under /api/v1/cases/{case_id}
+        # 28. Sub-resource routes under /api/v1/cases/{case_id} or /api/cases/{case_id}
         if endpoint.startswith("/api/v1/cases/") or endpoint.startswith("/api/cases/"):
             parts = endpoint.strip("/").split("/")
-            case_id = parts[3] if len(parts) > 3 else parts[1]
-            sub = parts[4] if len(parts) > 4 else (parts[2] if len(parts) > 2 else "")
+            if endpoint.startswith("/api/v1/cases/"):
+                case_id = parts[3]
+                sub = "/".join(parts[4:])
+            else:
+                case_id = parts[2]
+                sub = "/".join(parts[3:])
 
             case = case_store.get_case(case_id)
             if not case:

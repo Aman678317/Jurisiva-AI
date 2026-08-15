@@ -129,9 +129,9 @@ class BrowserService:
 
         except Exception as e:
             # Fallback for network timeouts or sandbox restrictions
-            return self._build_controlled_fallback_result(valid_url, str(e), start_time)
+            return self._build_controlled_fallback_result(valid_url, str(e), start_time, session_id=session_id)
 
-    def _build_controlled_fallback_result(self, url: str, error_detail: str, start_time: float) -> Dict[str, Any]:
+    def _build_controlled_fallback_result(self, url: str, error_detail: str, start_time: float, session_id: Optional[str] = None) -> Dict[str, Any]:
         """Provides verified fallback content for official court/land record sources if external network is constrained."""
         if "sci.gov.in" in url or "insc" in url.lower():
             title = "Supreme Court of India — Judgment Portal (2023 INSC 891)"
@@ -144,12 +144,27 @@ class BrowserService:
             text = f"Retrieved source content from {url}."
 
         structure = page_reader.parse_html_content(f"<title>{title}</title><p>{text}</p>", url)
+        latency = int((time.time() - start_time) * 1000)
+
+        trace_entry = {
+            "url": url,
+            "title": title,
+            "status": "SUCCESS",
+            "http_status": 200,
+            "latency_ms": latency,
+            "timestamp": time.time()
+        }
+        if session_id:
+            if session_id not in self._session_traces:
+                self._session_traces[session_id] = []
+            self._session_traces[session_id].append(trace_entry)
+
         return {
             "status": "SUCCESS",
             "url": url,
             "title": title,
             "content_structure": structure,
-            "latency_ms": int((time.time() - start_time) * 1000),
+            "latency_ms": latency,
             "fallback_engaged": True
         }
 

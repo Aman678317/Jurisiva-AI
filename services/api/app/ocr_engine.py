@@ -246,6 +246,12 @@ class OCRExtractionEngine:
             entities["mutation_number"] = "MR 14/1986-87"
             entities["khata_number"] = "Khata No. 188"
 
+        entities["vendor"] = entities["seller"]
+        entities["purchaser"] = entities["buyer"]
+        entities["extent_acres"] = entities["property_area_acres"]
+        entities["extent_guntas"] = entities["property_area_guntas"]
+        entities["total_sqft"] = entities["total_area_sqft"]
+
         return entities
 
     def review_document(self, doc_record: Dict[str, Any]) -> Dict[str, Any]:

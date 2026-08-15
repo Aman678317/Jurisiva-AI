@@ -166,7 +166,7 @@ class DocumentReaderService:
                 },
                 "rights_and_transactions": "Conveys absolute, marketable freehold ownership with physical possession and covenants of title indemnity against future claimants.",
                 "what_evidence_is_present": "Contains official SRO registration endorsement, volume folio number, 2 witness attestations, and vendor thumb impression.",
-                "what_is_unclear_or_risk": "The 2018 subsequent conveyance conveys only 2 Acres 10 Guntas, leaving a 14 Guntas gap that requires revenue durasti reconciliation.",
+                "what_is_unclear_or_risk": "The 2018 subsequent conveyance conveys only 2 Acres 10 Guntas, leaving a 14 Guntas deficit that requires revenue durasti reconciliation.",
                 "missing_documents": [
                     "Form 11E Mojini Tatkal Phodi Survey Sketch",
                     "1984 Settlement Akarband Extract"

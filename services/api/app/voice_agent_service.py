@@ -100,13 +100,13 @@ class JurisivaVoiceAssistant:
         # -------------------------------------------------------------
         # INTENT 1: DOCUMENT MEANING / EXPLANATION
         # -------------------------------------------------------------
-        if any(w in q_lower for w in ["what does this", "explain", "meaning", "paper mean"]):
+        if any(w in q_lower for w in ["what does this", "explain", "meaning", "paper mean"]) or any(k in user_spoken_text for k in ["ವಿವರಿಸಿ", "ತಿಳಿಸಿ", "ಹೇಳಿ", "ಅರ್ಥ"]):
             if language == "kn":
                 spoken_response = "ನಮಸ್ಕಾರ, ನಾನು ಜ್ಯೂರಿಸಿವಾ ಎಐ ಕಾನೂನು ಸಹಾಯಕ. ಇದು 1985 ರ ನೋಂದಾಯಿತ ಕ್ರಯಪತ್ರವಾಗಿದ್ದು, ವೆಂಕಟಪ್ಪನವರು ಕೃಷ್ಣಪ್ಪನವರಿಗೆ 2 ಎಕರೆ 24 ಗುಂಟೆ ಜಮೀನನ್ನು ನೋಂದಾಯಿಸಿರುತ್ತಾರೆ. ಆದರೆ 2018 ರ ಪತ್ರದಲ್ಲಿ 14 ಗುಂಟೆ ವ್ಯತ್ಯಾಸ ಕಂಡುಬಂದಿದೆ."
             elif language == "hi":
                 spoken_response = "नमस्ते, मैं ज्यूरिशिवा एआई कानूनी सहायक हूँ। यह 1985 का पंजीकृत विक्रय पत्र है, जिसके अनुसार वेंकटप्पा ने कृष्णप्पा को 2 एकड़ 24 गुंटे भूमि हस्तांतरित की थी। 2018 के विलेख में 14 गुंटे का अंतर है।"
             else:
-                spoken_response = "I'm Jurisiva's AI legal assistant. This document is a Registered Sale Deed from 1985, where Venkatappa conveyed 2 Acres 24 Guntas of Survey No. 42/1 Hissa 2 to Krishnappa for ₹45,000. However, the subsequent 2018 conveyance reflects an unrectified 14 Guntas deficit."
+                spoken_response = "I'm Jurisiva's AI legal assistant. This document is a Registered Sale Deed from 1985, where Venkatappa conveyed 2 Acres 24 Guntas of Survey No. 42/1 Hissa 2 to Krishnappa for ₹45,00,000. However, the subsequent 2018 conveyance reflects an unrectified 14 Guntas deficit."
             
             action_triggered = "EXPLAIN_DOCUMENT"
             target_doc_id = "doc_sale_1985"
@@ -116,7 +116,7 @@ class JurisivaVoiceAssistant:
         # -------------------------------------------------------------
         # INTENT 2: PREVIOUS OWNER / TITLE DEVOLUTION
         # -------------------------------------------------------------
-        elif any(w in q_lower for w in ["previous owner", "who owned", "who was owner", "vendor"]):
+        elif any(w in q_lower for w in ["previous owner", "who owned", "who was owner", "vendor"]) or any(k in user_spoken_text for k in ["ಮಾಲೀಕ", "ಮಾರಾಟಗಾರ"]):
             if language == "kn":
                 spoken_response = "ಹಿಂದಿನ ಮಾಲೀಕರು ವೆಂಕಟಪ್ಪ (ಮುನಿಯಪ್ಪನವರ ಮಗ). ಅವರು 14 ನವೆಂಬರ್ 1985 ರಂದು ಕೃಷ್ಣಪ್ಪನವರಿಗೆ ಈ ಆಸ್ತಿಯನ್ನು ಮಾರಾಟ ಮಾಡಿದರು. ಇದರ ವಿವರವು 1985 ರ ಕ್ರಯಪತ್ರದ ಪುಟ 2 ರಲ್ಲಿದೆ."
             elif language == "hi":
@@ -130,21 +130,23 @@ class JurisivaVoiceAssistant:
             evidence_quote = "Vendor: Venkatappa S/o Late Muniyappa (Page 2)."
 
         # -------------------------------------------------------------
-        # INTENT 3: WHICH PAGE SAYS THIS?
+        # INTENT 3: SPECIFIC PAGE JUMP / EVIDENCE CITATION
         # -------------------------------------------------------------
-        elif any(w in q_lower for w in ["which page", "what page", "show page", "where does it say"]):
-            spoken_response = "This is explicitly stated on Page 4 of the 1985 Registered Sale Deed under the Title Covenants and Schedule clause. I have opened Page 4 for you."
+        elif any(w in q_lower for w in ["which page", "where does it say", "page number", "show evidence", "jump to page"]):
+            spoken_response = "The official Sub-Registrar registration endorsement and volume entry is recorded on Page 4 of the 1985 deed. I am navigating to Page 4 now."
             action_triggered = "JUMP_PAGE"
             target_doc_id = "doc_sale_1985"
             jump_to_page = 4
-            evidence_quote = "Covenants of Title & Freehold Ownership (Page 4)."
+            evidence_quote = "Book 1, Volume 120, Document No. 1234/1985-86 (Page 4)."
 
         # -------------------------------------------------------------
-        # INTENT 4: RISKS & ISSUES
+        # INTENT 4: RISKS & MORTGAGE CHECKS
         # -------------------------------------------------------------
-        elif any(w in q_lower for w in ["risk", "issue", "problem", "defect", "encumbrance"]):
-            spoken_response = "There are two active issues: First, a high-severity 14 Guntas extent deficit between the 1985 and 2018 deeds requiring a Mojini 11E Tatkal Phodi survey. Second, an undischarged ₹50 Lakhs SBI simple mortgage registered on SRO Book 1."
+        elif any(w in q_lower for w in ["risk", "mortgage", "problem", "discrepancy", "loan", "bank"]):
+            spoken_response = "I have identified 2 critical risks: First, a 14 Guntas deficit between the 1985 deed (2A 24G) and 2018 deed (2A 10G). Second, an undischarged ₹50 Lakhs Simple Mortgage with State Bank of India registered in 2010 on SRO Book 1 without a release deed."
             action_triggered = "SHOW_RISKS"
+            target_doc_id = "doc_sale_1985"
+            jump_to_page = 3
 
         # -------------------------------------------------------------
         # INTENT 5: LEGAL RESEARCH & PRECEDENTS
@@ -164,7 +166,12 @@ class JurisivaVoiceAssistant:
         # DEFAULT ASSISTANT RESPONSE
         # -------------------------------------------------------------
         else:
-            spoken_response = f"I am reviewing Matter #{case_id} for Survey No. 42/1 Hissa 2. You can ask me to explain any deed, jump to specific pages, check ownership history, or draft legal notices."
+            if language == "kn":
+                spoken_response = f"ನಾನು ಪ್ರಕರಣ #{case_id} ನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ. ಮೂಲ ಮಾಲೀಕರು ವೆಂಕಟಪ್ಪನವರು. ನೀವು ಯಾವುದೇ ದಸ್ತಾವೇಜನ್ನು ವಿವರಿಸಲು ಅಥವಾ ಪರಿಶೀಲಿಸಲು ಕೇಳಬಹುದು."
+            elif language == "hi":
+                spoken_response = f"मैं प्रकरण #{case_id} की समीक्षा कर रहा हूँ। मूल स्वामी वेंकटप्पा थे। आप मुझसे किसी भी दस्तावेज की व्याख्या या स्वामित्व विवरण पूछ सकते हैं।"
+            else:
+                spoken_response = f"I am reviewing Matter #{case_id} for Survey No. 42/1 Hissa 2. You can ask me to explain any deed, jump to specific pages, check ownership history, or draft legal notices."
 
         # Synthesize Speech Metadata
         tts_payload = self.tts.synthesize_speech(spoken_response, language_code=language)

@@ -122,7 +122,7 @@ class ModelRouter:
                     {"provider": "openai", "model": "gpt-4o"},
                     {"provider": "glm", "model": "glm-4"}
                 ],
-                "tier": "ADVANCED_DRAFTING",
+                "tier": "ADVANCED_REASONING",
                 "reason": "Claude 3.5 Sonnet / DeepSeek-R1 selected for court-grade drafting."
             }
 

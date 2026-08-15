@@ -1,10 +1,10 @@
 Write-Host "===============================================================================" -ForegroundColor Cyan
-Write-Host "Pushing Jurisiva-AI Fix to GitHub (Aman678317/Jurisiva-AI)" -ForegroundColor Green
+Write-Host "Pushing Jurisiva-AI Test Suite Fixes to GitHub (Aman678317/Jurisiva-AI)" -ForegroundColor Green
 Write-Host "===============================================================================" -ForegroundColor Cyan
 
 git status
 git add .
-git commit -m "fix(syntax): resolve case_store unclosed dictionary and sync flake8 linting"
+git commit -m "fix(tests): resolve model router tier, token parser, entity aliases, sub-routing, and voice assistant checks"
 git branch -M main
 git push origin main
 
