@@ -1290,6 +1290,25 @@ if HAS_FASTAPI:
             if os.path.exists(up_p):
                 return FileResponse(up_p, media_type="image/jpeg")
         raise HTTPException(status_code=404, detail="Media asset not found")
+
+    @app.get("/")
+    @app.get("/app")
+    @app.get("/trust")
+    @app.get("/workspace")
+    def serve_frontend_page():
+        candidates = [
+            os.path.join(project_root, "apps", "web", "index.html"),
+            os.path.join(project_root, "index.html"),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "apps", "web", "index.html"),
+            os.path.join(os.getcwd(), "apps", "web", "index.html"),
+            os.path.join(os.getcwd(), "index.html"),
+            "apps/web/index.html",
+            "index.html",
+        ]
+        for p in candidates:
+            if os.path.exists(p):
+                return FileResponse(p, media_type="text/html")
+        return {"status": "200 OK", "app": "Jurisiva AI API Gateway", "docs": "/docs"}
 else:
     class MockApp:
         title = "Jurisiva AI API"
