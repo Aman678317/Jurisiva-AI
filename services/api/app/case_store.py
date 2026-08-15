@@ -347,6 +347,20 @@ class CaseStore:
         diff_gt = first_total_gt - last_total_gt
         if diff_gt > 0:
             return {
+                "status": "DEFICIT_DETECTED",
+                "deficit_guntas": diff_gt,
+                "parent_extent": f"{first_ac} Acres {first_gt} Guntas",
+                "current_extent": f"{last_ac} Acres {last_gt} Guntas",
+                "source_parent": first_doc.get("filename", "Sale_Deed_1985.pdf"),
+                "source_current": last_doc.get("filename", "Sale_Deed_2018.pdf"),
+                "message": f"Extent shortage of {diff_gt} Guntas between root title deed and current conveyance deed."
+            }
+        return {
+            "status": "EXTENTS_CONSISTENT",
+            "deficit_guntas": 0,
+            "message": "Property extents match across root and current deeds."
+        }
+
     def get_analysis(self, case_id: str) -> List[Dict[str, Any]]:
         """Generates evidence-backed structured findings from actual case documents."""
         case = self.get_case(case_id)
