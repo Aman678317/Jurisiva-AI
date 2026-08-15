@@ -1,11 +1,11 @@
 @echo off
 echo ===============================================================================
-echo Pushing Vercel Static Frontend Resolution Fix to GitHub
+echo Pushing Vercel OutputDirectory Fix to GitHub (apps/web/index.html)
 echo ===============================================================================
 
 git reset origin/main
 git add .
-git commit -m "fix(vercel): map rewrites directly to /apps/web/index.html to resolve 404"
+git commit -m "fix(vercel): configure outputDirectory apps/web and /index.html rewrite"
 git push origin main
 
 echo ===============================================================================

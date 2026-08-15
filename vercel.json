@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "outputDirectory": "apps/web",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
@@ -36,24 +37,8 @@
       "destination": "https://jurisiva-ai.onrender.com/health"
     },
     {
-      "source": "/",
-      "destination": "/apps/web/index.html"
-    },
-    {
-      "source": "/app",
-      "destination": "/apps/web/index.html"
-    },
-    {
-      "source": "/trust",
-      "destination": "/apps/web/index.html"
-    },
-    {
-      "source": "/workspace",
-      "destination": "/apps/web/index.html"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/apps/web/index.html"
+      "destination": "/index.html"
     }
   ]
 }
