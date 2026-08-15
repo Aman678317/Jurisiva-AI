@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "next start",
     "server": "python -m uvicorn services.api.app.main:app --reload --host 127.0.0.1 --port 8000"
   },
