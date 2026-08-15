@@ -1,11 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 
-export default function CatchAllPage() {
+export default function WorkspacePage() {
   return (
     <>
       <Head>
-        <title>Jurisiva AI — Workspace</title>
+        <title>Jurisiva AI — Case Workspace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <iframe
@@ -25,17 +25,4 @@ export default function CatchAllPage() {
       />
     </>
   );
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-}
-
-export async function getStaticProps() {
-  return {
-    props: {},
-  };
 }

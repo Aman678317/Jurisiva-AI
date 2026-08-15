@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-export default function CatchAllPage() {
+export default function AppPage() {
   return (
     <>
       <Head>
@@ -25,17 +25,4 @@ export default function CatchAllPage() {
       />
     </>
   );
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-}
-
-export async function getStaticProps() {
-  return {
-    props: {},
-  };
 }

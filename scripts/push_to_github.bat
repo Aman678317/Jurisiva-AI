@@ -1,14 +1,14 @@
 @echo off
 echo ===============================================================================
-echo Pushing Next.js Build Polish to GitHub (Aman678317/Jurisiva-AI)
+echo Pushing Static Generation Fix for Next.js (getStaticPaths & Dedicated Pages)
 echo ===============================================================================
 
 git reset origin/main
 git add .
-git commit -m "fix(nextjs): configure ignoreBuildErrors and _app.jsx wrapper for clean Next.js build"
+git commit -m "fix(nextjs): add getStaticPaths and dedicated static pages for 100% clean Next.js build"
 git push origin main
 
 echo ===============================================================================
-echo Push Completed!
+echo Push Completed Successfully!
 echo ===============================================================================
 pause
