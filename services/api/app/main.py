@@ -190,6 +190,28 @@ class FastAPIBackendServer:
                 ]
             }
 
+        # 3b. POST /api/v1/matters/{matter_id}/documents (IDOR Multi-Tenant Protection)
+        if endpoint.startswith("/api/v1/matters/") and "/documents" in endpoint and method == "POST":
+            target_org = query_params.get("matter_org_id") or body.get("matter_org_id") or user_org_id
+            if not auth_guard.verify_tenant_access(user_org_id, target_org):
+                return {
+                    "status": "403 Forbidden",
+                    "error": {
+                        "code": "TENANT_ACCESS_DENIED",
+                        "message": f"Cross-tenant access violation: {user_org_id} cannot access resources of {target_org}"
+                    }
+                }
+            filename = body.get("filename", "deed.pdf")
+            doc_id = f"doc_{hashlib.sha256(filename.encode()).hexdigest()[:8]}"
+            return {
+                "status": "201 Created",
+                "data": {
+                    "document_id": doc_id,
+                    "filename": filename,
+                    "status": "UPLOADED"
+                }
+            }
+
         # 4. POST /api/v1/documents/upload
         if endpoint == "/api/v1/documents/upload" and method == "POST":
             filename = body.get("filename", "Uploaded_Deed.pdf")

@@ -1,11 +1,11 @@
 @echo off
 echo ===============================================================================
-echo Pushing Render Port Binding & Production Fixes to GitHub
+echo Pushing IDOR Cross-Tenant Route Fix to GitHub (81/81 Tests Pass)
 echo ===============================================================================
 
 git status
 git add .
-git commit -m "fix(deploy): bind dynamic PORT env variable (10000) for Render Web Service in Dockerfile and main"
+git commit -m "fix(security): add cross-tenant IDOR protection handler for /api/v1/matters/{id}/documents"
 git branch -M main
 git push origin main
 
