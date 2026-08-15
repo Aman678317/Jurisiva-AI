@@ -1,14 +1,14 @@
 @echo off
 echo ===============================================================================
-echo Pushing Bulletproof Dual Static & FastAPI Root HTML Handler to GitHub
+echo Pushing Next.js Dependency Fix for Vercel Build (Aman678317/Jurisiva-AI)
 echo ===============================================================================
 
 git reset origin/main
 git add .
-git commit -m "fix(web): add bulletproof root HTML response handler in main.py and vercel.json"
+git commit -m "fix(vercel): add next dependency in package.json to resolve Vercel Next.js preset"
 git push origin main
 
 echo ===============================================================================
-echo Push Completed Successfully!
+echo Push Completed!
 echo ===============================================================================
 pause
