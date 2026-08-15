@@ -1,11 +1,10 @@
 Write-Host "===============================================================================" -ForegroundColor Cyan
-Write-Host "Pushing Vercel Root UI Route Fix to GitHub" -ForegroundColor Green
+Write-Host "Pushing Vercel Static Frontend Resolution Fix to GitHub" -ForegroundColor Green
 Write-Host "===============================================================================" -ForegroundColor Cyan
 
-git status
+git reset origin/main
 git add .
-git commit -m "fix(web): serve complete frontend index.html on root route / in main.py and vercel"
-git branch -M main
+git commit -m "fix(vercel): map rewrites directly to /apps/web/index.html to resolve 404"
 git push origin main
 
 Write-Host "===============================================================================" -ForegroundColor Cyan

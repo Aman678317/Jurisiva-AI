@@ -3118,7 +3118,7 @@ ADVOCATE FOR PLAINTIFF`;
     const container = document.getElementById('dynamic-audit-log-container');
     if (!container) return;
     try {
-      const res = await fetch('${API_BASE_URL}/api/v1/security/audit-log');
+      const res = await fetch(`${API_BASE_URL}/api/v1/security/audit-log`);
       const data = await res.json();
       renderAuditLogsTable(data.data || data);
     } catch (err) {
@@ -3170,7 +3170,7 @@ ADVOCATE FOR PLAINTIFF`;
   async function saveRetentionSetting() {
     const val = document.getElementById('setting-retention-select')?.value || "90";
     try {
-      await fetch('${API_BASE_URL}/api/v1/security/settings', {
+      await fetch(`${API_BASE_URL}/api/v1/security/settings`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data_retention_days: parseInt(val) })
@@ -3201,7 +3201,7 @@ ADVOCATE FOR PLAINTIFF`;
     };
 
     try {
-      await fetch('${API_BASE_URL}/api/v1/enterprise/register', {
+      await fetch(`${API_BASE_URL}/api/v1/enterprise/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -3222,7 +3222,7 @@ ADVOCATE FOR PLAINTIFF`;
     const client = document.getElementById('modal-client-name').value;
     
     try {
-      const res = await fetch('${API_BASE_URL}/api/v1/cases', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/cases`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
