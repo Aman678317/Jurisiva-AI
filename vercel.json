@@ -15,7 +15,7 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
@@ -24,29 +24,21 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "microphone=(self), camera=(), geolocation=()"
         }
       ]
     }
   ],
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/index.html"
+      "source": "/api/(.*)",
+      "destination": "https://jurisiva-ai.onrender.com/api/$1"
     },
     {
-      "source": "/app",
-      "destination": "/index.html"
+      "source": "/health",
+      "destination": "https://jurisiva-ai.onrender.com/health"
     },
     {
-      "source": "/trust",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/workspace",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

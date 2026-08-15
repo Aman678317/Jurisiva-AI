@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node dev-server.js",
-    "build": "node dev-server.js",
+    "build": "echo 'Static frontend ready'",
     "preview": "node dev-server.js"
   },
   "dependencies": {
