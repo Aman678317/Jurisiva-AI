@@ -1,14 +1,14 @@
 @echo off
 echo ===============================================================================
-echo Resetting to Remote origin/main and Pushing Clean Commit (No Secrets in History)
+echo Pushing Vercel Schema Fix (Removed 'public' property) to GitHub
 echo ===============================================================================
 
-git reset origin/main
+git status
 git add .
-git commit -m "fix(deploy): complete deployment configuration, port binding, and test fixes"
+git commit -m "fix(vercel): remove invalid 'public' key in vercel.json"
 git push origin main
 
 echo ===============================================================================
-echo Push Completed Successfully!
+echo Push Completed!
 echo ===============================================================================
 pause
