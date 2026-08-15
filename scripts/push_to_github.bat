@@ -1,0 +1,15 @@
+@echo off
+echo ===============================================================================
+echo Pushing Jurisiva-AI Production Codebase to GitHub (Aman678317/Jurisiva-AI)
+echo ===============================================================================
+
+git status
+git add .
+git commit -m "feat(core): production architecture with multi-model AI router, NVIDIA NIM, DeepSeek-R1, GLM-2/4 failover, and Vercel/Render/Supabase deployment"
+git branch -M main
+git push origin main
+
+echo ===============================================================================
+echo Code successfully pushed to https://github.com/Aman678317/Jurisiva-AI
+echo ===============================================================================
+pause

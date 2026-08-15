@@ -1,0 +1,44 @@
+name: Jurisiva Production Deployment Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-backend-render:
+    name: Deploy Render FastAPI & Worker Services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Trigger Render Deploy Hook (API)
+        if: env.RENDER_DEPLOY_HOOK_API != ''
+        env:
+          RENDER_DEPLOY_HOOK_API: ${{ secrets.RENDER_DEPLOY_HOOK_API }}
+        run: |
+          curl -X POST "$RENDER_DEPLOY_HOOK_API"
+
+      - name: Trigger Render Deploy Hook (Worker)
+        if: env.RENDER_DEPLOY_HOOK_WORKER != ''
+        env:
+          RENDER_DEPLOY_HOOK_WORKER: ${{ secrets.RENDER_DEPLOY_HOOK_WORKER }}
+        run: |
+          curl -X POST "$RENDER_DEPLOY_HOOK_WORKER"
+
+  deploy-frontend-vercel:
+    name: Deploy Vercel Production Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        if: env.VERCEL_TOKEN != ''
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          npm install -g vercel
+          vercel deploy --prod --token=$VERCEL_TOKEN

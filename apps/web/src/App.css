@@ -24,6 +24,14 @@ body {
   min-height: 100vh;
 }
 
+.jurisiva-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.88) contrast(1.06) brightness(0.94);
+}
+
 /* Landing Page Navbar */
 .landing-navbar {
   display: flex;
@@ -319,4 +327,959 @@ button.btn-secondary {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+button.btn-secondary:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Marketo Forms, Harvey Typography & KaTeX Math Styling Integration
+   ========================================================================== */
+
+.marketo-form-v2 {
+  --form-input-padding: var(--spacing-sm) !important;
+  --form-input-border-color: var(--color-gray-400) !important;
+  --form-row-gap: 21px !important;
+}
+.marketo-form-v2.mktoForm {
+  width: 100% !important;
+  max-width: none !important;
+}
+.marketo-form-v2 .mktoFormRow:not(:has(#Lbloptin)) {
+  float: none !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  display: grid !important;
+}
+@media (min-width: 768px) {
+  .marketo-form-v2 .mktoFormRow:not(:has(#Lbloptin)) {
+    gap: var(--spacing-md) !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  :is(.marketo-form-v2 .mktoFormRow:not(:has(#Lbloptin)):has(.mktoFormCol:only-child), .marketo-form-v2 .mktoFormRow:not(:has(#Lbloptin)):has(.mktoFormCol + .mktoClear:nth-child(2))) {
+    grid-template-columns: 1fr !important;
+  }
+}
+.marketo-form-v2 .mktoFormCol:not(:has(#Lbloptin)) {
+  float: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.marketo-form-v2 .mktoFieldDescriptor {
+  float: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.marketo-form-v2 .mktoFieldWrap {
+  width: 100% !important;
+  max-width: none !important;
+}
+.marketo-form-v2 input.mktoField,
+.marketo-form-v2 select.mktoField,
+.marketo-form-v2 textarea.mktoField,
+.marketo-form-v2 .mktoField[style] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+:is(.marketo-form-v2 input.mktoField, .marketo-form-v2 select.mktoField, .marketo-form-v2 textarea.mktoField, .marketo-form-v2 .mktoField[style])::selection {
+  background-color: var(--color-gray-950-ink) !important;
+  color: var(--color-gray-50-ivory) !important;
+}
+.marketo-form-v2 .mktoOffset,
+.marketo-form-v2 .mktoClear,
+.marketo-form-v2 .mktoGutter {
+  display: none !important;
+}
+.marketo-form-v2 input::placeholder,
+.marketo-form-v2 select.mktoField::placeholder,
+.marketo-form-v2 textarea.mktoField::placeholder {
+  color: var(--color-gray-500) !important;
+}
+.marketo-form-v2 .mktoLabel {
+  font-size: var(--text-base) !important;
+  color: var(--color-gray-950-ink) !important;
+  margin-bottom: var(--spacing-xs) !important;
+  padding-top: 0 !important;
+}
+.marketo-form-v2 .mktoAsterix {
+  color: var(--color-gray-950-ink) !important;
+  padding-right: 0 !important;
+}
+.marketo-form-v2 .mktoFieldWrap {
+  gap: 0 !important;
+}
+.marketo-form-v2 .mktoFieldWrap:has(#Lbloptin) {
+  margin-top: -8px !important;
+  margin-bottom: 0 !important;
+}
+.marketo-form-v2 .mktoFieldWrap:not(:has(#optinInstructions)):not(:has(#Lbloptin)):not(:has(.mktoHtmlText)) {
+  margin-bottom: var(--spacing-md) !important;
+}
+.marketo-form-v2 .mktoFieldWrap:has(.mktoHtmlText):not(:has(#optinInstructions)) {
+  margin-bottom: var(--spacing-sm) !important;
+}
+.marketo-form-v2 .mktoLogicalField.mktoCheckboxList.mktoHasWidth {
+  padding: 0 !important;
+}
+.marketo-form-v2 .mktoFormRow:has(#Lbloptin) {
+  margin-bottom: var(--spacing-md) !important;
+  align-items: start !important;
+  padding-right: 0 !important;
+  overflow: hidden !important;
+}
+.marketo-form-v2 .mktoFormRow:has(#Lbloptin) > * {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+.marketo-form-v2 .mktoFieldDescriptor:has(#Lbloptin) {
+  margin-right: 0 !important;
+}
+.marketo-form-v2 .mktoFormCol:has(#optinInstructions) {
+  margin-left: -8px !important;
+}
+.marketo-form-v2 .mktoHtmlText p#optinInstructions {
+  color: var(--color-gray-800) !important;
+  font-size: var(--text-base) !important;
+  margin-left: var(--spacing-sm) !important;
+}
+.marketo-form-v2 input[type=checkbox] {
+  background-color: #0000 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+.marketo-form-v2 input[type=checkbox]:checked {
+  background-color: #0000 !important;
+}
+.marketo-form-v2 .mktoFormRow:has(#Lbloptin) input[type=checkbox] {
+  width: 20px !important;
+}
+.marketo-form-v2 .mktoFormRow:has(input[type=checkbox]):not(:has(#Lbloptin, .mktoCheckboxList)) .mktoFieldWrap {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: .5rem !important;
+}
+.marketo-form-v2 .mktoFormRow:has(input[type=checkbox]):not(:has(#Lbloptin, .mktoCheckboxList)) .mktoLabel {
+  white-space: normal !important;
+  flex: 1 !important;
+  order: 2 !important;
+  width: auto !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+.marketo-form-v2 .mktoFormRow:has(input[type=checkbox]):not(:has(#Lbloptin, .mktoCheckboxList)) .mktoLogicalField {
+  flex-shrink: 0 !important;
+  order: 1 !important;
+  width: auto !important;
+}
+:is(.marketo-form-v2 .mktoFormRow:has(input[type=checkbox]):not(:has(#Lbloptin, .mktoCheckboxList)) .mktoGutter, .marketo-form-v2 .mktoFormRow:has(input[type=checkbox]):not(:has(#Lbloptin, .mktoCheckboxList)) .mktoOffset) {
+  display: none !important;
+}
+.marketo-form-v2.mktoForm input[type=number] {
+  width: 100% !important;
+}
+.marketo-form-v2 .mktoHtmlText {
+  font-size: var(--text-sm) !important;
+  color: var(--color-gray-600) !important;
+}
+.marketo-form-v2 .mktoButtonRow {
+  flex: 1;
+  grid-column: 1/-1 !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+  display: flex !important;
+}
+.marketo-form-v2 .mktoButtonRow span {
+  flex: 1 !important;
+  display: flex !important;
+}
+.marketo-form-v2 .mktoButton {
+  flex: 1 !important;
+  padding: 0 20px !important;
+}
+.resource-marketo-form.mktoForm {
+  background-color: var(--color-gray-100) !important;
+  padding: var(--spacing-md) !important;
+}
+.resource-marketo-form .mktoHtmlText p#optinInstructions {
+  padding-top: 0 !important;
+}
+.section-marketo-form.mktoForm {
+  background-color: #0000 !important;
+  padding: 0 !important;
+}
+.section-marketo-form .mktoFieldWrap:has(#optinInstructions) {
+  margin-top: 0 !important;
+}
+.section-marketo-form .mktoHtmlText p#optinInstructions {
+  padding-top: 0 !important;
+}
+@media (min-width: 1106px) {
+  .section-marketo-form .mktoHtmlText p#optinInstructions {
+    padding-top: 2px !important;
+  }
+}
+
+/* Harvey Serif & Sans Fonts */
+@font-face {
+  font-family: HarveySerifFont;
+  src: url(../media/subset_HarveySerif_Regular-s.p.3fyyxyg4mmi3v.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: HarveySerifFont;
+  src: url(../media/subset_HarveySerif_Italic-s.p.3vy99-_efieb4.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: HarveySerifFont Fallback;
+  src: local(Arial);
+  ascent-override: 97.54%;
+  descent-override: 36.07%;
+  line-gap-override: 0.0%;
+  size-adjust: 99.24%;
+}
+.harveyseriffont_44388caf-module__VfjPQa__className {
+  font-family: HarveySerifFont, HarveySerifFont Fallback;
+}
+.harveyseriffont_44388caf-module__VfjPQa__variable {
+  --harvey-serif: "HarveySerifFont", "HarveySerifFont Fallback";
+}
+
+@font-face {
+  font-family: HarveySansFont;
+  src: url(../media/HarveySansDiatypeVariable-s.p.3gw33igtr422g.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: HarveySansFont Fallback;
+  src: local(Arial);
+  ascent-override: 97.44%;
+  descent-override: 36.04%;
+  line-gap-override: 0.0%;
+  size-adjust: 99.34%;
+}
+.harveysansfont_71ea8e1e-module__refiRW__className {
+  font-family: HarveySansFont, HarveySansFont Fallback;
+}
+.harveysansfont_71ea8e1e-module__refiRW__variable {
+  --harvey-sans: "HarveySansFont", "HarveySansFont Fallback";
+}
+
+/* Connector Library Marketo Form */
+.connector-library-marketo-form {
+  --form-row-gap: var(--spacing-sm) !important;
+}
+.connector-library-marketo-form.mktoForm {
+  background-color: #0000 !important;
+  padding: 0 !important;
+}
+:is(.connector-library-marketo-form .mktoFieldWrap:not(:has(#optinInstructions)):not(:has(#Lbloptin)):not(:has(.mktoHtmlText)), .connector-library-marketo-form .mktoFormRow:has(#Lbloptin)) {
+  margin-bottom: var(--spacing-sm) !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoHtmlText):not(:has(#optinInstructions)) {
+  display: none !important;
+}
+.connector-library-marketo-form .mktoFieldWrap:has(#optinInstructions) {
+  margin-top: 0 !important;
+}
+.connector-library-marketo-form .mktoHtmlText p#optinInstructions {
+  padding-top: 0 !important;
+}
+@media (min-width: 1106px) {
+  .connector-library-marketo-form .mktoHtmlText p#optinInstructions {
+    padding-top: 2px !important;
+  }
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoFieldWrap {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: .5rem !important;
+  display: flex !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoLogicalField.mktoCheckboxList {
+  flex-shrink: 0 !important;
+  order: 1 !important;
+  width: auto !important;
+  padding: 0 !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoLabel {
+  white-space: normal !important;
+  flex: 1 !important;
+  order: 2 !important;
+  width: auto !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoCheckboxList > label {
+  display: none !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoGutter {
+  display: none !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList):not(:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2))) .mktoOffset {
+  display: none !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2)) .mktoCheckboxList {
+  gap: var(--spacing-sm) !important;
+  grid-template-columns: auto 1fr !important;
+  width: 100% !important;
+  padding: 0 !important;
+  display: grid !important;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2)) .mktoCheckboxList input[type=checkbox] {
+  align-self: center;
+}
+.connector-library-marketo-form .mktoFormRow:has(.mktoCheckboxList input[type=checkbox]:nth-of-type(2)) .mktoCheckboxList label {
+  align-self: center;
+  white-space: normal !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+/* Contact Sales Marketo Form */
+.contact-sales-marketo-form {
+  --form-row-gap: var(--spacing-sm) !important;
+}
+.contact-sales-marketo-form.mktoForm {
+  background-color: #0000 !important;
+  padding: 0 !important;
+}
+:is(.contact-sales-marketo-form .mktoFieldWrap:not(:has(#optinInstructions)):not(:has(#Lbloptin)):not(:has(.mktoHtmlText)), .contact-sales-marketo-form .mktoFormRow:has(#Lbloptin)) {
+  margin-bottom: var(--spacing-sm) !important;
+}
+.contact-sales-marketo-form .mktoFormRow:has(.mktoHtmlText):not(:has(#optinInstructions)) {
+  display: none !important;
+}
+.contact-sales-marketo-form .mktoFieldWrap:has(#optinInstructions) {
+  margin-top: 0 !important;
+}
+.contact-sales-marketo-form .mktoHtmlText p#optinInstructions {
+  padding-top: 0 !important;
+}
+@media (min-width: 1106px) {
+  .contact-sales-marketo-form .mktoHtmlText p#optinInstructions {
+    padding-top: 2px !important;
+  }
+}
+
+/* KaTeX Fonts */
+@font-face {
+  font-display: block;
+  font-family: KaTeX_AMS;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_AMS-Regular.25ieegmnh38ts.woff2) format("woff2"), url(../media/KaTeX_AMS-Regular.10y3kupq4t663.woff) format("woff"), url(../media/KaTeX_AMS-Regular.418dr7cz3fo2x.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Caligraphic;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../media/KaTeX_Caligraphic-Bold.06b-ya9t43ioz.woff2) format("woff2"), url(../media/KaTeX_Caligraphic-Bold.2vmk2hva4ctha.woff) format("woff"), url(../media/KaTeX_Caligraphic-Bold.40ltxhe834pns.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Caligraphic;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Caligraphic-Regular.2eph4dlhid_m9.woff2) format("woff2"), url(../media/KaTeX_Caligraphic-Regular.3gxeetazf831f.woff) format("woff"), url(../media/KaTeX_Caligraphic-Regular.07-7u27-nhn_r.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Fraktur;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../media/KaTeX_Fraktur-Bold.2sasz-d-jtw8y.woff2) format("woff2"), url(../media/KaTeX_Fraktur-Bold.1alcy76__wdj2.woff) format("woff"), url(../media/KaTeX_Fraktur-Bold.19yqa_tc9d_gx.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Fraktur;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Fraktur-Regular.2d10y4xmjvzlf.woff2) format("woff2"), url(../media/KaTeX_Fraktur-Regular.110oo81prr9n5.woff) format("woff"), url(../media/KaTeX_Fraktur-Regular.2qhy34r6a05dn.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Main;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../media/KaTeX_Main-Bold.3-rowy8o6_4ky.woff2) format("woff2"), url(../media/KaTeX_Main-Bold.0v1esh257kqpe.woff) format("woff"), url(../media/KaTeX_Main-Bold.0us_n0tnxlxu7.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Main;
+  font-style: italic;
+  font-weight: 700;
+  src: url(../media/KaTeX_Main-BoldItalic.14r2naom8mrec.woff2) format("woff2"), url(../media/KaTeX_Main-BoldItalic.13355ck5zr48q.woff) format("woff"), url(../media/KaTeX_Main-BoldItalic.3x_u9cepaced0.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Main;
+  font-style: italic;
+  font-weight: 400;
+  src: url(../media/KaTeX_Main-Italic.0lig0v9j0700p.woff2) format("woff2"), url(../media/KaTeX_Main-Italic.0afv392dj4w59.woff) format("woff"), url(../media/KaTeX_Main-Italic.2hkw3230mfwcv.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Main;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Main-Regular.1ryvsdzh2w1_e.woff2) format("woff2"), url(../media/KaTeX_Main-Regular.15u8r3b2y7fv4.woff) format("woff"), url(../media/KaTeX_Main-Regular.0symfa7dqj6jd.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Math;
+  font-style: italic;
+  font-weight: 700;
+  src: url(../media/KaTeX_Math-BoldItalic.1oopuu636h4il.woff2) format("woff2"), url(../media/KaTeX_Math-BoldItalic.12pl58orkw9rg.woff) format("woff"), url(../media/KaTeX_Math-BoldItalic.0y5w36a5aq__2.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Math;
+  font-style: italic;
+  font-weight: 400;
+  src: url(../media/KaTeX_Math-Italic.32405s1aq8vas.woff2) format("woff2"), url(../media/KaTeX_Math-Italic.0w0b1ugh62cfr.woff) format("woff"), url(../media/KaTeX_Math-Italic.2vkekfblmz5nb.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_SansSerif;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../media/KaTeX_SansSerif-Bold.0h3wi2z_eouyg.woff2) format("woff2"), url(../media/KaTeX_SansSerif-Bold.1ovw5p-yjp56g.woff) format("woff"), url(../media/KaTeX_SansSerif-Bold.2d03q85pwxpti.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_SansSerif;
+  font-style: italic;
+  font-weight: 400;
+  src: url(../media/KaTeX_SansSerif-Italic.0wkjc4dm2kcit.woff2) format("woff2"), url(../media/KaTeX_SansSerif-Italic.1qavw__2zz8gk.woff) format("woff"), url(../media/KaTeX_SansSerif-Italic.3i-q087b23-m8.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_SansSerif;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_SansSerif-Regular.2peiewu59z3d-.woff2) format("woff2"), url(../media/KaTeX_SansSerif-Regular.1i4afx8nk8n4r.woff) format("woff"), url(../media/KaTeX_SansSerif-Regular.31pbu25feko_c.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Script;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Script-Regular.11h14300o9pd0.woff2) format("woff2"), url(../media/KaTeX_Script-Regular.3110jb9c-bxna.woff) format("woff"), url(../media/KaTeX_Script-Regular.28p_x7iz71ofe.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Size1;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Size1-Regular.03lhvx36ekcou.woff2) format("woff2"), url(../media/KaTeX_Size1-Regular.1slf4bh0hc6vm.woff) format("woff"), url(../media/KaTeX_Size1-Regular.1y57-ck23ey8c.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Size2;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Size2-Regular.14s5gg-puz6h-.woff2) format("woff2"), url(../media/KaTeX_Size2-Regular.0-kwyvx03omo8.woff) format("woff"), url(../media/KaTeX_Size2-Regular.2u0s-b07k2o9m.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Size3;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Size3-Regular.1n1rgzz84z8r9.woff2) format("woff2"), url(../media/KaTeX_Size3-Regular.04o9a_02gu_e8.woff) format("woff"), url(../media/KaTeX_Size3-Regular.1pkn-dge4q0fv.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Size4;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Size4-Regular.2sgotkdv3dcyv.woff2) format("woff2"), url(../media/KaTeX_Size4-Regular.3p2r1l7xmebxv.woff) format("woff"), url(../media/KaTeX_Size4-Regular.2uelkfk2yna5e.ttf) format("truetype");
+}
+@font-face {
+  font-display: block;
+  font-family: KaTeX_Typewriter;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../media/KaTeX_Typewriter-Regular.11gr2d2wuwz77.woff2) format("woff2"), url(../media/KaTeX_Typewriter-Regular.12f8myjij3617.woff) format("woff"), url(../media/KaTeX_Typewriter-Regular.3nee9kjfy6nm8.ttf) format("truetype");
+}
+
+/* KaTeX Layout & Math Formatting */
+.katex {
+  text-indent: 0;
+  text-rendering: auto;
+  font: 1.21em/1.2 KaTeX_Main, Times New Roman, serif;
+  position: relative;
+}
+.katex * {
+  border-color: currentColor;
+  -ms-high-contrast-adjust: none !important;
+}
+.katex .katex-version:after {
+  content: "0.16.47";
+}
+.katex .katex-mathml {
+  clip-path: inset(50%);
+  border: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+.katex .katex-html > .newline {
+  display: block;
+}
+.katex .base {
+  white-space: nowrap;
+  width: min-content;
+  position: relative;
+}
+.katex .base, .katex .strut {
+  display: inline-block;
+}
+.katex .textbf {
+  font-weight: 700;
+}
+.katex .textit {
+  font-style: italic;
+}
+.katex .textrm {
+  font-family: KaTeX_Main;
+}
+.katex .textsf {
+  font-family: KaTeX_SansSerif;
+}
+.katex .texttt {
+  font-family: KaTeX_Typewriter;
+}
+.katex .mathnormal {
+  font-family: KaTeX_Math;
+  font-style: italic;
+}
+.katex .mathit {
+  font-family: KaTeX_Main;
+  font-style: italic;
+}
+.katex .mathrm {
+  font-style: normal;
+}
+.katex .mathbf {
+  font-family: KaTeX_Main;
+  font-weight: 700;
+}
+.katex .boldsymbol {
+  font-family: KaTeX_Math;
+  font-style: italic;
+  font-weight: 700;
+}
+.katex .amsrm, .katex .mathbb, .katex .textbb {
+  font-family: KaTeX_AMS;
+}
+.katex .mathcal {
+  font-family: KaTeX_Caligraphic;
+}
+.katex .mathfrak, .katex .textfrak {
+  font-family: KaTeX_Fraktur;
+}
+.katex .mathboldfrak, .katex .textboldfrak {
+  font-family: KaTeX_Fraktur;
+  font-weight: 700;
+}
+.katex .mathtt {
+  font-family: KaTeX_Typewriter;
+}
+.katex .mathscr, .katex .textscr {
+  font-family: KaTeX_Script;
+}
+.katex .mathsf, .katex .textsf {
+  font-family: KaTeX_SansSerif;
+}
+.katex .mathboldsf, .katex .textboldsf {
+  font-family: KaTeX_SansSerif;
+  font-weight: 700;
+}
+.katex .mathitsf, .katex .mathsfit, .katex .textitsf {
+  font-family: KaTeX_SansSerif;
+  font-style: italic;
+}
+.katex .mainrm {
+  font-family: KaTeX_Main;
+  font-style: normal;
+}
+.katex .vlist-t {
+  border-collapse: collapse;
+  table-layout: fixed;
+  display: inline-table;
+}
+.katex .vlist-r {
+  display: table-row;
+}
+.katex .vlist {
+  vertical-align: bottom;
+  display: table-cell;
+  position: relative;
+}
+.katex .vlist > span {
+  height: 0;
+  display: block;
+  position: relative;
+}
+.katex .vlist > span > span {
+  display: inline-block;
+}
+.katex .vlist > span > .pstrut {
+  width: 0;
+  overflow: hidden;
+}
+.katex .vlist-t2 {
+  margin-right: -2px;
+}
+.katex .vlist-s {
+  vertical-align: bottom;
+  width: 2px;
+  min-width: 2px;
+  font-size: 1px;
+  display: table-cell;
+}
+.katex .vbox {
+  flex-direction: column;
+  align-items: baseline;
+  display: inline-flex;
+}
+.katex .hbox {
+  width: 100%;
+}
+.katex .hbox, .katex .thinbox {
+  flex-direction: row;
+  display: inline-flex;
+}
+.katex .thinbox {
+  width: 0;
+  max-width: 0;
+}
+.katex .msupsub {
+  text-align: left;
+}
+.katex .mfrac > span > span {
+  text-align: center;
+}
+.katex .mfrac .frac-line {
+  border-bottom-style: solid;
+  width: 100%;
+  display: inline-block;
+}
+.katex .hdashline, .katex .hline, .katex .mfrac .frac-line, .katex .overline .overline-line, .katex .rule, .katex .underline .underline-line {
+  min-height: 1px;
+}
+.katex .mspace {
+  display: inline-block;
+}
+.katex .smash {
+  line-height: 0;
+  display: inline;
+}
+.katex .clap, .katex .llap, .katex .rlap {
+  width: 0;
+  position: relative;
+}
+.katex .clap > .inner, .katex .llap > .inner, .katex .rlap > .inner {
+  position: absolute;
+}
+.katex .clap > .fix, .katex .llap > .fix, .katex .rlap > .fix {
+  display: inline-block;
+}
+.katex .llap > .inner {
+  right: 0;
+}
+.katex .clap > .inner, .katex .rlap > .inner {
+  left: 0;
+}
+.katex .clap > .inner > span {
+  margin-left: -50%;
+  margin-right: 50%;
+}
+.katex .rule {
+  border: 0 solid;
+  display: inline-block;
+  position: relative;
+}
+.katex .hline, .katex .overline .overline-line, .katex .underline .underline-line {
+  border-bottom-style: solid;
+  width: 100%;
+  display: inline-block;
+}
+.katex .hdashline {
+  border-bottom-style: dashed;
+  width: 100%;
+  display: inline-block;
+}
+.katex .sqrt > .root {
+  margin-left: .277778em;
+  margin-right: -.555556em;
+}
+.katex .fontsize-ensurer.reset-size1.size1, .katex .sizing.reset-size1.size1 { font-size: 1em; }
+.katex .fontsize-ensurer.reset-size1.size2, .katex .sizing.reset-size1.size2 { font-size: 1.2em; }
+.katex .fontsize-ensurer.reset-size1.size3, .katex .sizing.reset-size1.size3 { font-size: 1.4em; }
+.katex .fontsize-ensurer.reset-size1.size4, .katex .sizing.reset-size1.size4 { font-size: 1.6em; }
+.katex .fontsize-ensurer.reset-size1.size5, .katex .sizing.reset-size1.size5 { font-size: 1.8em; }
+.katex .fontsize-ensurer.reset-size1.size6, .katex .sizing.reset-size1.size6 { font-size: 2em; }
+.katex .fontsize-ensurer.reset-size1.size7, .katex .sizing.reset-size1.size7 { font-size: 2.4em; }
+.katex .fontsize-ensurer.reset-size1.size8, .katex .sizing.reset-size1.size8 { font-size: 2.88em; }
+.katex .fontsize-ensurer.reset-size1.size9, .katex .sizing.reset-size1.size9 { font-size: 3.456em; }
+.katex .fontsize-ensurer.reset-size1.size10, .katex .sizing.reset-size1.size10 { font-size: 4.148em; }
+.katex .fontsize-ensurer.reset-size1.size11, .katex .sizing.reset-size1.size11 { font-size: 4.976em; }
+
+.katex .fontsize-ensurer.reset-size2.size1, .katex .sizing.reset-size2.size1 { font-size: .833333em; }
+.katex .fontsize-ensurer.reset-size2.size2, .katex .sizing.reset-size2.size2 { font-size: 1em; }
+.katex .fontsize-ensurer.reset-size2.size3, .katex .sizing.reset-size2.size3 { font-size: 1.16667em; }
+.katex .fontsize-ensurer.reset-size2.size4, .katex .sizing.reset-size2.size4 { font-size: 1.33333em; }
+.katex .fontsize-ensurer.reset-size2.size5, .katex .sizing.reset-size2.size5 { font-size: 1.5em; }
+.katex .fontsize-ensurer.reset-size2.size6, .katex .sizing.reset-size2.size6 { font-size: 1.66667em; }
+.katex .fontsize-ensurer.reset-size2.size7, .katex .sizing.reset-size2.size7 { font-size: 2em; }
+.katex .fontsize-ensurer.reset-size2.size8, .katex .sizing.reset-size2.size8 { font-size: 2.4em; }
+.katex .fontsize-ensurer.reset-size2.size9, .katex .sizing.reset-size2.size9 { font-size: 2.88em; }
+.katex .fontsize-ensurer.reset-size2.size10, .katex .sizing.reset-size2.size10 { font-size: 3.45667em; }
+.katex .fontsize-ensurer.reset-size2.size11, .katex .sizing.reset-size2.size11 { font-size: 4.14667em; }
+
+.katex .delimsizing.size1 { font-family: KaTeX_Size1; }
+.katex .delimsizing.size2 { font-family: KaTeX_Size2; }
+.katex .delimsizing.size3 { font-family: KaTeX_Size3; }
+.katex .delimsizing.size4 { font-family: KaTeX_Size4; }
+.katex .delimsizing.mult .delim-size1 > span { font-family: KaTeX_Size1; }
+.katex .delimsizing.mult .delim-size4 > span { font-family: KaTeX_Size4; }
+.katex .nulldelimiter { width: .12em; display: inline-block; }
+.katex .delimcenter, .katex .op-symbol { position: relative; }
+.katex .op-symbol.small-op { font-family: KaTeX_Size1; }
+.katex .op-symbol.large-op { font-family: KaTeX_Size2; }
+.katex .accent > .vlist-t, .katex .op-limits > .vlist-t { text-align: center; }
+.katex .accent .accent-body { position: relative; }
+.katex .accent .accent-body:not(.accent-full) { width: 0; }
+.katex .overlay { display: block; }
+.katex .mtable .vertical-separator { min-width: 1px; display: inline-block; }
+.katex .mtable .arraycolsep { display: inline-block; }
+.katex .mtable .col-align-c > .vlist-t { text-align: center; }
+.katex .mtable .col-align-l > .vlist-t { text-align: left; }
+.katex .mtable .col-align-r > .vlist-t { text-align: right; }
+.katex .svg-align { text-align: left; }
+.katex svg {
+  fill: currentColor;
+  stroke: currentColor;
+  height: inherit;
+  width: 100%;
+  display: block;
+  position: absolute;
+}
+.katex svg path { stroke: none; }
+.katex svg {
+  fill-rule: nonzero;
+  fill-opacity: 1;
+  stroke-width: 1px;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 4;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  stroke-opacity: 1;
+}
+.katex img {
+  border-style: none;
+  min-width: 0;
+  max-width: none;
+  min-height: 0;
+  max-height: none;
+}
+.katex .stretchy {
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.katex .stretchy:after, .katex .stretchy:before { content: ""; }
+.katex .hide-tail { width: 100%; position: relative; overflow: hidden; }
+.katex .halfarrow-left { width: 50.2%; position: absolute; left: 0; overflow: hidden; }
+.katex .halfarrow-right { width: 50.2%; position: absolute; right: 0; overflow: hidden; }
+.katex .brace-left { width: 25.1%; position: absolute; left: 0; overflow: hidden; }
+.katex .brace-center { width: 50%; position: absolute; left: 25%; overflow: hidden; }
+.katex .brace-right { width: 25.1%; position: absolute; right: 0; overflow: hidden; }
+.katex .x-arrow-pad { padding: 0 .5em; }
+.katex .cd-arrow-pad { padding: 0 .55556em 0 .27778em; }
+.katex .mover, .katex .munder, .katex .x-arrow { text-align: center; }
+.katex .boxpad { padding: 0 .3em; }
+.katex .fbox, .katex .fcolorbox { box-sizing: border-box; border: .04em solid; }
+.katex .cancel-pad { padding: 0 .2em; }
+.katex .cancel-lap { margin-left: -.2em; margin-right: -.2em; }
+.katex .sout { border-bottom-style: solid; border-bottom-width: .08em; }
+.katex .angl { box-sizing: border-box; border-top: .049em solid; border-right: .049em solid; margin-right: .03889em; }
+.katex .anglpad { padding: 0 .03889em; }
+.katex .eqn-num:before { content: "(" counter(katexEqnNo) ")"; counter-increment: katexEqnNo; }
+.katex .mml-eqn-num:before { content: "(" counter(mmlEqnNo) ")"; counter-increment: mmlEqnNo; }
+.katex .mtr-glue { width: 50%; }
+.katex .cd-vert-arrow { display: inline-block; position: relative; }
+.katex .cd-label-left { text-align: left; display: inline-block; position: absolute; right: calc(50% + .3em); }
+.katex .cd-label-right { text-align: right; display: inline-block; position: absolute; left: calc(50% + .3em); }
+
+.katex-display {
+  text-align: center;
+  margin: 1em 0;
+  display: block;
+}
+.katex-display > .katex {
+  text-align: center;
+  white-space: nowrap;
+  display: block;
+}
+.katex-display > .katex > .katex-html {
+  display: block;
+  position: relative;
+}
+.katex-display > .katex > .katex-html > .tag {
+  position: absolute;
+  right: 0;
+}
+.katex-display.leqno > .katex > .katex-html > .tag {
+  left: 0;
+  right: auto;
+}
+.katex-display.fleqn > .katex {
+  text-align: left;
+  padding-left: 2em;
+}
+body {
+  counter-reset: katexEqnNo mmlEqnNo;
+}
+
+/* Opt-Out Page Form */
+.opt-out-page-form.mktoForm {
+  font-family: var(--font-harvey-sans) !important;
+  color: var(--color-gray-950-ink) !important;
+  background-color: #0000 !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+.opt-out-page-form .mktoOffset,
+.opt-out-page-form .mktoGutter,
+.opt-out-page-form .mktoClear,
+.opt-out-page-form .mktoInstruction,
+.opt-out-page-form .mktoAsterix {
+  display: none !important;
+}
+.opt-out-page-form .mktoFormRow {
+  grid-template-columns: 1fr !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+.opt-out-page-form .mktoFieldDescriptor.mktoFormCol {
+  grid-column: 1/-1 !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+.opt-out-page-form .mktoFieldWrap {
+  gap: .625rem;
+  flex-direction: column !important;
+  width: 100% !important;
+  display: flex !important;
+}
+.opt-out-page-form label.mktoLabel {
+  float: none !important;
+  width: auto !important;
+  font-family: var(--font-harvey-sans) !important;
+  font-size: var(--text-sm) !important;
+  color: var(--color-gray-950-ink) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+}
+.opt-out-page-form .mktoRequiredField label.mktoLabel:after {
+  content: "*";
+  color: var(--color-gray-950-ink);
+  margin-left: .125rem;
+}
+.opt-out-page-form input.mktoField,
+.opt-out-page-form input[type=email].mktoField,
+.opt-out-page-form input[type=text].mktoField {
+  transition: border-color .15s ease-out;
+  border: 1px solid var(--color-gray-400) !important;
+  background-color: var(--color-white) !important;
+  width: 100% !important;
+  height: auto !important;
+  font-family: var(--font-harvey-sans) !important;
+  font-size: var(--text-base) !important;
+  color: var(--color-gray-950-ink) !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+  outline: none !important;
+  padding: .75rem !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+.opt-out-page-form input.mktoField:hover {
+  border-color: var(--color-gray-500) !important;
+}
+.opt-out-page-form input.mktoField:focus,
+.opt-out-page-form input.mktoField:focus-visible {
+  border-color: var(--color-gray-950-ink) !important;
+  outline: none !important;
+}
+.opt-out-page-form input.mktoField::placeholder {
+  color: var(--color-gray-600) !important;
+  opacity: 1 !important;
+}
+.opt-out-page-form .mktoButtonRow {
+  width: 100% !important;
+  margin: var(--spacing-sm) 0 0 0 !important;
+  display: block !important;
+}
+.opt-out-page-form .mktoButtonRow span {
+  width: 100% !important;
+  margin: 0 !important;
+  display: block !important;
+}
+.opt-out-page-form .mktoButtonWrap {
+  width: 100% !important;
+  margin: 0 !important;
+}
+.opt-out-page-form button.mktoButton {
+  cursor: pointer;
+  transition: background-color .3s ease-out;
+  background: var(--color-gray-950-ink) !important;
+  width: 100% !important;
+  height: 3rem !important;
+  color: var(--color-gray-50-ivory) !important;
+  font-family: var(--font-harvey-sans) !important;
+  font-size: var(--text-base) !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 0 1.25rem !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+}
+.opt-out-page-form button.mktoButton:hover,
+.opt-out-page-form button.mktoButton:focus-visible {
+  background: var(--color-gray-600) !important;
+  border: none !important;
+}
+.opt-out-page-form button.mktoButton:active {
+  background: var(--color-gray-400) !important;
+}
+.opt-out-page-form #Lbloptin {
+  display: none;
 }

@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY apps/web/package.json .
+COPY apps/web/dev-server.js .
+COPY apps/web/index.html .
+
+EXPOSE 3000
+
+CMD ["node", "dev-server.js"]

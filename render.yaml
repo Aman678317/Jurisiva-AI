@@ -1,0 +1,148 @@
+# Render Blueprint Specification for Jurisiva-AI Production Deployment
+# Deploys FastAPI Web API, Background Worker, Redis Queue, and Scheduled Maintenance Cron
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. FastAPI Web Service (REST API Gateway)
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: jurisiva-api
+    runtime: python
+    region: singapore
+    plan: standard
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn services.api.app.main:app --host 0.0.0.0 --port $PORT --workers 4
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://app.jurisiva.ai,https://www.jurisiva.ai,https://jurisiva-ai.vercel.app,http://localhost:3000
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_DB_URL
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEYS
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEYS
+        sync: false
+      - key: GLM_API_KEY
+        sync: false
+      - key: GLM_API_KEYS
+        sync: false
+      - key: OCR_PROVIDER
+        value: GOOGLE_VISION_AND_TESSERACT
+      - key: OCR_API_KEY
+        sync: false
+      - key: SEARCH_PROVIDER
+        value: APEX_LEGAL_AND_WEB
+      - key: SEARCH_API_KEY
+        sync: false
+      - key: STT_PROVIDER
+        value: WHISPER_AND_GOOGLE
+      - key: STT_API_KEY
+        sync: false
+      - key: TTS_PROVIDER
+        value: GOOGLE_NEURAL2
+      - key: TTS_API_KEY
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: jurisiva-redis
+          property: connectionString
+
+  # ---------------------------------------------------------------------------
+  # 2. Render Background Worker (Asynchronous OCR, AI, Research, and Reports)
+  # ---------------------------------------------------------------------------
+  - type: worker
+    name: jurisiva-worker
+    runtime: python
+    region: singapore
+    plan: standard
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m workers.worker
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_DB_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEYS
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEYS
+        sync: false
+      - key: GLM_API_KEY
+        sync: false
+      - key: GLM_API_KEYS
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: jurisiva-redis
+          property: connectionString
+
+  # ---------------------------------------------------------------------------
+  # 3. Scheduled Maintenance Cron Job (Daily at 02:00 UTC)
+  # ---------------------------------------------------------------------------
+  - type: cron
+    name: jurisiva-maintenance-cron
+    runtime: python
+    region: singapore
+    schedule: "0 2 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m workers.worker --run-cron-cleanup
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_DB_URL
+        sync: false
+
+# -----------------------------------------------------------------------------
+# 4. Key-Value Store / Redis Queue
+# -----------------------------------------------------------------------------
+databases:
+  - name: jurisiva-redis
+    region: singapore
+    plan: starter
+    maxmemoryPolicy: noeviction
+    ipAllowList: [] # Internal Render VPC private network only

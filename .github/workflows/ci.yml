@@ -1,4 +1,4 @@
-name: CI/CD Production Quality Pipeline
+name: Jurisiva CI Quality & Security Gate
 
 on:
   push:
@@ -7,23 +7,39 @@ on:
     branches: [ main ]
 
 jobs:
-  validate:
+  test-and-lint:
+    name: Backend Tests, Static Analysis & Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
 
-      - name: Set up Python & Node
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest httpx
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio flake8
 
-      - name: Run Quality & Security Tests
+      - name: Python Syntax & Lint Check
         run: |
-          pytest tests/
+          flake8 services/api workers --count --select=E9,F63,F7,F82 --show-source --statistics
 
+      - name: Execute Automated Test Suite
+        run: |
+          pytest services/api/tests/ -v
 
+      - name: Validate Supabase SQL Migrations
+        run: |
+          ls -la supabase/migrations/*.sql
+          test -f supabase/migrations/20260815_initial_production_schema.sql
+
+      - name: Secret Leak Prevention Check
+        run: |
+          ! grep -r "sk-" services/api/app/ || (echo "Potential OpenAI key leaked!" && exit 1)
+          ! grep -r "SUPABASE_SERVICE_ROLE_KEY=ey" apps/web/ || (echo "Supabase secret leaked in web!" && exit 1)
