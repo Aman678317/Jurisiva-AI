@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev --prefix apps/web",
-    "build": "echo 'Jurisiva Web Build Ready'",
-    "start": "node apps/web/dev-server.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "server": "python -m uvicorn services.api.app.main:app --reload --host 127.0.0.1 --port 8000"
   },
   "dependencies": {
